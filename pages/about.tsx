@@ -74,13 +74,27 @@ function AboutPage() {
                     </List>
                     <p>The result, we believe, is an algorithmically perpetuated hivemind that is baked into every AI (LLM-specific) system today. Our goal isn't just to say it but to provide tools for everyone to discern it themselves.</p>
                     <Header as='h2'>The How:</Header>
+                    <p>We aim to reverse-engineer patterns shaping today's Internet and juxtapose them against AI's representation of revered, often overlooked thinkers.</p>
+
                     <List bulleted>
-                        <List.Item>Relative Truth over Mass Opinion: Our AI uses primary sources...</List.Item>
-                        <List.Item>Individual Discovery over Algorithmic Homogenization: Users handpick texts...</List.Item>
-                        <List.Item>Thoughtful Engagement over Instant Gratification: Users can react to content...</List.Item>
-                        <List.Item>Text-Centricity over Visual Overload: Prioritizing written content...</List.Item>
-                        <List.Item>Timelessness over Trending: Our algorithm equally values enduring truths...</List.Item>
-                        <List.Item>Consensus Over Chaos: Controversial topics are threaded...</List.Item>
+                        <List.Item>
+                            <strong>Relative Truth over Mass Opinion:</strong> Our AI uses primary sources to echo specific individuals or groups.
+                        </List.Item>
+                        <List.Item>
+                            <strong>Individual Discovery over Algorithmic Homogenization:</strong> Users handpick texts, promoting personalized exploration.
+                        </List.Item>
+                        <List.Item>
+                            <strong>Thoughtful Engagement over Instant Gratification:</strong> Users can react to content, guiding our algorithm towards consensus.
+                        </List.Item>
+                        <List.Item>
+                            <strong>Text-Centricity over Visual Overload:</strong> Prioritizing written content over fleeting visual stimuli.
+                        </List.Item>
+                        <List.Item>
+                            <strong>Timelessness over Trending:</strong> Our algorithm equally values enduring truths, irrespective of their age.
+                        </List.Item>
+                        <List.Item>
+                            <strong>Consensus Over Chaos:</strong> Controversial topics are threaded, letting users follow evolving dialogues.
+                        </List.Item>
                     </List>
                     <Header as='h2'>Vision:</Header>
                     <p>Our ultimate goal is to evolve into a Decentralized Autonomous Organization (DAO) whereby no centralized decision-making will be required to uphold this service and its founding design principles. The intended offering of this DAO is a locally hosted equivalent of this application, air-gapped from the internet and capable of running on consumer-grade hardware. So a Library of Alexandria with a superintelligent librarian in your pocket, if you will.</p>
