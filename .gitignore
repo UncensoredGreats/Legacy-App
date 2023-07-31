@@ -1,0 +1,19 @@
+# Ignore .next build output folder
+.next/
+
+# Ignore node_modules folder
+node_modules/
+
+# Ignore environment variables file
+.env*
+.env
+
+# Ignore other build and cache related files
+.cache/
+dist/
+out/
+
+# Ignore bash stuff
+generate_tree.sh
+run_generate_tree.bat
+tree.txt

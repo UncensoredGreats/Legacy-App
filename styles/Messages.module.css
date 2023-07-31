@@ -1,0 +1,18 @@
+.userCard:hover {
+  transform: none !important;
+}
+
+
+
+.authorCard {
+  background-color: #fbfbf8 !important;
+  /* background-color: #f4f3eb !important; */
+}
+
+.userCard {
+  background-color: #fafdfa !important;
+  /* background-color: #eeeee9 !important; */
+}
+
+
+

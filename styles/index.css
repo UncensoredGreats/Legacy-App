@@ -1,0 +1,26 @@
+/*
+index.css Pseudocode:
+"""
+IMPORT globalStyles.css
+body: Sets the font family, font size, line height, and color for the entire app.
+#root: Sets the display, direction, and minimum height for the root element.
+"""
+
+*/
+
+/* @import './globalStyles.css';
+
+
+body {
+    margin: 0;
+    font-family: 'Times New Roman';
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  } */

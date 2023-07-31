@@ -1,0 +1,42 @@
+.cardContainer {
+    perspective: 1000px;
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.1s;
+    transform-style: preserve-3d;
+    box-sizing: border-box;
+    opacity: 0;
+}
+
+.cardFlipped {
+    transform: rotateY(180deg);
+}
+
+.cardFront,
+.cardBack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.cardBack {
+    background-color: #f8f8f8;
+    color: #2c3e50;
+    line-height: 200px;
+    text-align: center;
+    transform: rotateY(180deg);
+}
+
+.cardVisible {
+    opacity: 1;
+    transition: opacity 50ms ease-in-out;
+  }
