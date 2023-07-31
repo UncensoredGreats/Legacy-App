@@ -77,8 +77,8 @@ const HeaderProp = () => {
       case 'Timeless Media':
         router.push('/timeless-media');
         break;
-      case 'Debates':
-        router.push('/debates');
+      case 'About':
+        router.push('/about');
         break;
     }
   };
@@ -102,9 +102,9 @@ const HeaderProp = () => {
                   onClick={() => handleItemClick('Timeless Media')}
                 />
                 <Dropdown.Item
-                  text='Debates'
-                  active={activeItem === '/debates'}
-                  onClick={() => handleItemClick('Debates')}
+                  text='About'
+                  active={activeItem === '/about'}
+                  onClick={() => handleItemClick('About')}
                 />
               </Dropdown.Menu>
             </Dropdown>
