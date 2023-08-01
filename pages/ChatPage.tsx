@@ -14,7 +14,7 @@ import useRequestLimit from '../Components/chatpage/useRequestLimit'
 import { processMetasummary } from '../Components/chatpage/processMetasummary';
 import SettingsModal from '../Components/chatpage/SettingsModal';
 import createPayload from '../Components/chatpage/PayloadCreator';
-
+import Layout from '../Components/homepageMenu/Layout';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,

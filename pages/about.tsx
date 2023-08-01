@@ -22,7 +22,7 @@ import Layout from '../Components/homepageMenu/Layout';
 function AboutPage() {
     return (
         <Layout>
-            <Container text style={{ marginTop: '2em' }}>
+            <Container text style={{ paddingTop: '2em' }}>
                 <Header as='h1'>About UncensoredGreats</Header>
                 <Segment>
                     <Header as='h3' color="red">Pre-beta Warning</Header>
