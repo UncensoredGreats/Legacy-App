@@ -212,6 +212,7 @@ const ChatPage = ({ author }) => {
   };
 
   return (
+    <Layout>
     <MessageCardProvider>
       <div style={{ height: '100vh', margin: 0, padding: 0 }}>
         <SettingsModal 
@@ -263,6 +264,7 @@ const ChatPage = ({ author }) => {
         </Grid>
       </div>
     </MessageCardProvider>
+    </Layout>
   );
 };
 

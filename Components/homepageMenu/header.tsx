@@ -159,10 +159,11 @@
 
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import { Button, Dropdown, Menu, Input, Modal, Grid, Icon} from 'semantic-ui-react';
+import { Button, Dropdown, Grid, Menu, Input, Modal, Icon} from 'semantic-ui-react';
 import AuthModal, { getAuthState } from '../../app/authModal';
 import { createClient } from '@supabase/supabase-js'
 import { useSwipeable } from 'react-swipeable';
+import styles from '../../styles/header.module.css';
 
 
 const supabase = createClient(
@@ -259,8 +260,8 @@ useEffect(() => {
 }, [menuOpen]);
 
 const handlers = useSwipeable({
-  onSwipedRight: () => setMenuOpen(true),
-  onSwipedLeft: () => setMenuOpen(false),
+  onSwipedRight: () => setMenuOpen(false),
+  onSwipedLeft: () => setMenuOpen(true),
   trackMouse: true
 });
 
@@ -268,12 +269,12 @@ const handlers = useSwipeable({
 const menuStyle: React.CSSProperties = {
   position: 'fixed',
   top: '0',
-  right: menuOpen ? '0px' : '-250px',
+  left: menuOpen ? '0px' : '-250px',
   width: '250px',
   height: '100%',
-  background: '#1E2B20',
+  background: '#436B78',
   color: '#fff',
-  transition: 'right 0.3s',
+  transition: 'left 0.3s',
   padding: '20px',
   zIndex: 1000,
 };
@@ -285,96 +286,109 @@ const buttonStyle: React.CSSProperties = {
 };
 
 return (
-  <>
-    <Icon
-      name="bars"
-      className="icon"
-      onClick={() => setMenuOpen(!menuOpen)}
-      style={{ 
-        position: 'fixed', 
-        top: '15px', 
-        left: '15px', 
-        zIndex: 1001, 
-        fontSize: '20px', // Button Size
-        color: 'black'
-      }}
-    />
-
-    <div style={menuStyle} className={"menu"}>
-      <Button 
-        fluid 
-        icon="users" 
-        content="The Greats" 
-        onClick={() => handleItemClick('The Greats')} 
-        style={buttonStyle}
-      />
-      <Button 
-        fluid 
-        icon="eye" 
-        content="Timeless Media" 
-        onClick={() => handleItemClick('Timeless Media')} 
-        style={buttonStyle}
-      />
-      <Button 
-        fluid 
-        icon="info circle" 
-        content="About" 
-        onClick={() => handleItemClick('About')} 
-        style={buttonStyle}
-      />
-
-      <div style={{ marginTop: '15px', borderTop: '1px solid #fff', paddingTop: '15px'}}>
-        {isAuthenticated && (
-          <>
-            <Button 
-              fluid 
-              icon="tree" 
-              content="Wisdom Tree" 
-              onClick={() => handleUserMenuClick('Wisdom Tree')} 
-              style={buttonStyle}
-            />
-            <Button 
-              fluid 
-              icon="bookmark" 
-              content="Bookmarked" 
-              onClick={() => handleUserMenuClick('Bookmarked')} 
-              style={buttonStyle}
-            />
-          </>
-        )}
-      </div>
+  <Grid centered style={{ margin: 0, padding: 0 }}>
+    <Grid.Column mobile={16} tablet={16} computer={13} style={{ margin: 0, padding: 0 }}>
+      <>
       
-      <div style={{ position: 'absolute', bottom: '20px', width: '85%'}}>
-        <Button 
-          fluid 
-          icon={isAuthenticated ? 'sign-out' : 'sign-in'} 
-          content={isAuthenticated ? 'Sign Out' : 'Sign In'}
-          onClick={handleLoginClick} 
-          style={buttonStyle}
+        <Icon
+          name="bars"
+          className="icon"
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{ 
+            position: 'fixed', 
+            bottom: '100px', 
+            right: '30px', 
+            zIndex: 1001, 
+            fontSize: '23px',
+            color: 'black',
+            backgroundColor:  '#5C8CA3',
+            borderRadius: '50%',   
+            width: '50px',   
+            height: '50px',        
+            display: 'flex',         
+            alignItems: 'center',    
+            justifyContent: 'center',
+            padding: '10px'           
+          }}
         />
-      </div>
-    </div>
 
-    {/* Existing Auth Modal */}
-    <Modal 
-      open={modalOpen} 
-      onClose={() => setModalOpen(false)}
-      size='tiny'
-      header='Authentication'
-    >
-      <div style={{padding: '20px'}}>
-        <AuthModal />
-      </div>
-    </Modal>
-    <div {...handlers} style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: -2
-      }}></div>
-  </>
-);
+        <div style={menuStyle} className={"menu"}>
+          <Button 
+            fluid 
+            icon="users" 
+            content="The Greats" 
+            onClick={() => handleItemClick('The Greats')} 
+            style={buttonStyle}
+          />
+          <Button 
+            fluid 
+            icon="eye" 
+            content="Timeless Media" 
+            onClick={() => handleItemClick('Timeless Media')} 
+            style={buttonStyle}
+          />
+          <Button 
+            fluid 
+            icon="info circle" 
+            content="About" 
+            onClick={() => handleItemClick('About')} 
+            style={buttonStyle}
+          />
+
+          <div style={{ marginTop: '15px', borderTop: '1px solid #fff', paddingTop: '15px'}}>
+            {isAuthenticated && (
+              <>
+                <Button 
+                  fluid 
+                  icon="tree" 
+                  content="Wisdom Tree" 
+                  onClick={() => handleUserMenuClick('Wisdom Tree')} 
+                  style={buttonStyle}
+                />
+                <Button 
+                  fluid 
+                  icon="bookmark" 
+                  content="Bookmarked" 
+                  onClick={() => handleUserMenuClick('Bookmarked')} 
+                  style={buttonStyle}
+                />
+              </>
+            )}
+          </div>
+          
+          <div style={{ position: 'absolute', bottom: '20px', width: '85%'}}>
+            <Button 
+              fluid 
+              icon={isAuthenticated ? 'sign-out' : 'sign-in'} 
+              content={isAuthenticated ? 'Sign Out' : 'Sign In'}
+              onClick={handleLoginClick} 
+              style={buttonStyle}
+            />
+          </div>
+        </div>
+
+        {/* Existing Auth Modal */}
+        <Modal 
+          open={modalOpen} 
+          onClose={() => setModalOpen(false)}
+          size='tiny'
+          header='Authentication'
+        >
+          <div style={{padding: '20px'}}>
+            <AuthModal />
+          </div>
+        </Modal>
+        <div {...handlers} style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: -2
+          }}></div>
+      </>
+    </Grid.Column>
+  </Grid>
+  );
 };
 export default HeaderProp;
