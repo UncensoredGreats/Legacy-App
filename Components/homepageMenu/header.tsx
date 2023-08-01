@@ -261,7 +261,6 @@ useEffect(() => {
 const handlers = useSwipeable({
   onSwipedRight: () => setMenuOpen(true),
   onSwipedLeft: () => setMenuOpen(false),
-  // preventDefaultTouchmoveEvent: true,
   trackMouse: true
 });
 
@@ -269,7 +268,7 @@ const handlers = useSwipeable({
 const menuStyle: React.CSSProperties = {
   position: 'fixed',
   top: '0',
-  right: menuOpen ? '-250px' : '0',
+  right: menuOpen ? '0px' : '-250px',
   width: '250px',
   height: '100%',
   background: '#1E2B20',
