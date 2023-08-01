@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { supabase } from '../../app/authModal';
 import MessageCard from './MessageCard';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Input } from 'semantic-ui-react';
 import SettingsBar from './Settings/SettingsBar';
 
 // Custom Hook
@@ -111,17 +111,27 @@ function MediaPage() {
 
   return (
     <div>
-      <div style={{ 
-          width: '290px',
-          float: 'right',
+      <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
           marginBottom: '10px',
-          marginRight: '30px',
       }}>
-        <SettingsBar onFilterChange={setFilters} />
+          <div style={{
+              width: '290px',
+              marginRight: '0px',  // Adjust this to control the gap between search and settings
+              marginLeft: '30px',
+          }}>
+              <Input size='large' icon='search' placeholder='Search coming soon...'/>
+          </div>
+
+          <div style={{ 
+              width: '290px',
+              marginRight: '30px',
+          }}>
+              <SettingsBar onFilterChange={setFilters} />
+          </div>
       </div>
-      
-      <div style={{ clear: 'both' }}></div>
-  
+
       <div style={{ padding: '20px 0' }}>
         <Grid columns={numColumns} style={{ marginLeft: '15px', marginRight: '15px' }}>
           {columns.map((columnPosts, columnIndex) => (
@@ -135,7 +145,6 @@ function MediaPage() {
       </div>
     </div>
   );
-  
 }
 
 export default MediaPage;
