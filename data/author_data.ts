@@ -58,6 +58,13 @@ const AUTHOR_INFO: Author[] = [
     // "paragraphs_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/Camille%20Flammarion/flammarion_books_paragraphs.json'
     // },
     {
+    "id": "Benjamin Franklin",
+    "category": ["Philosophy", "Science"],
+    "cluster": "Benjamin_Franklin",
+    "image": "Benjamin Franklin.png",
+    "description": "Pioneering Visionary & Distinguished Polymath (1706-1790) | Trailblazer in the Discovery of Electricity & Foundational Contributor to the Birth of the United States | Illustrious Founder of the American Philosophical Association | Co-Author of the Declaration of Independence | A luminary who, despite his monumental achievements, once humbly professed, 'I may not be a man of unparalleled greatness, but I am, undeniably, a man of virtue and worth.'",
+    },
+    {
     "id": "Carl Jung",
     "category": ["Psychology", "Mysticism", "Philosophy"],
     "cap_first": "Carl",
