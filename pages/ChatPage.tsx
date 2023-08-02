@@ -15,6 +15,7 @@ import { processMetasummary } from '../Components/chatpage/processMetasummary';
 import SettingsModal from '../Components/chatpage/SettingsModal';
 import createPayload from '../Components/chatpage/PayloadCreator';
 import Layout from '../Components/homepageMenu/Layout';
+import HeaderProp from '../Components/homepageMenu/header';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -212,9 +213,10 @@ const ChatPage = ({ author }) => {
   };
 
   return (
-    <Layout>
     <MessageCardProvider>
+
       <div style={{ height: '100vh', margin: 0, padding: 0 }}>
+        <HeaderProp/>
         <SettingsModal 
           maxTokens={maxTokens}
           onChangeMaxTokens={setMaxTokens}
@@ -227,8 +229,13 @@ const ChatPage = ({ author }) => {
           promptStyle={promptStyle}
           onChangePromptStyle={setPromptStyle}
         />
+        {/* <Layout> */}
         <Grid centered style={{ padding: '0', margin: '0', height: '100%' }}>
-          <Grid.Column mobile={16} tablet={16} computer={10} style={{ padding: '0px', margin: '0px' }}>
+        
+          <Grid.Column mobile={16} tablet={16} computer={12} style={{ padding: '0px', margin: '0px' }}>
+          
+          
+
             <Card raised fluid style={{ 
               margin: '0',
               height: '100%', 
@@ -259,12 +266,15 @@ const ChatPage = ({ author }) => {
               <div style={{ padding: '2em' }}>
                 <ChatInput userMessage={userMessage} setUserMessage={setUserMessage} handleSubmit={handleSubmit} />
               </div>
+            
             </Card>
+            
           </Grid.Column>
+         
         </Grid>
+      {/* </Layout>   */}
       </div>
     </MessageCardProvider>
-    </Layout>
   );
 };
 

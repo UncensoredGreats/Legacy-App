@@ -22,3 +22,6 @@ const chatScrollBackground = (elementId) => {
 };
 
 export default chatScrollBackground;
+
+
+

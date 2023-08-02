@@ -29,3 +29,27 @@ export default function Layout({ children }) {
     </div>
   );
 }
+
+
+
+// export default function Layout({ children }) {
+//   const backgroundPosition = useBackgroundPosition();
+
+//   return (
+//     <div style={{
+//       position: 'relative',
+//       minHeight: '100vh',
+//       backgroundImage: `url('/images/WhiteOut.png')`,
+//       backgroundPosition: backgroundPosition,
+//       backgroundSize: 'cover',
+//       backgroundAttachment: 'fixed',
+//       backgroundBlendMode: 'multiply',
+//       backgroundColor: 'rgba(255, 255, 255, 0.1)'
+//     }}>
+//       <HeaderProp />
+//       <div style={{ paddingLeft: '0px' }}>
+//         {children}
+//       </div>
+//     </div>
+//   );
+// }
