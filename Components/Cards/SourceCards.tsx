@@ -78,7 +78,7 @@ const SourceCards: React.FC<SourceCardsProps> = ({  authorId, title, heading, co
       bookUrl = `https://uncensoredgreatsebooks.s3.us-east-2.amazonaws.com/${authorLink}/${authorLink}@@${titleClustered}.epub`;
     }
   
-    let readerAppUrl = "https://master.d2lzkrj4epm0ch.amplifyapp.com/";
+    let readerAppUrl = "https://www.semantic-library.com";
     let url = new URL(readerAppUrl);
     url.searchParams.set("bookPath", bookUrl);
     window.open(url.href, '_blank');
@@ -121,9 +121,7 @@ const SourceCards: React.FC<SourceCardsProps> = ({  authorId, title, heading, co
               </Card.Content>
               <Card.Content>
                 <div className='ui two buttons'>
-                  <Button basic color='blue' onClick={(event) => { event.stopPropagation(); toggleFullText(event, index); }}>{showFullText[index] ? 'Show Summary' : 'Show Full Text'}</Button>
-                  {/* <Button basic color='black' onClick={handleReadBookClick}>Read in Book</Button> */}
-                  <Button basic color='black' onClick={(event) => handleReadBookClick(event, index)}>Primary Source</Button>
+                  <Button basic color='blue' onClick={(event) => { event.stopPropagation(); toggleFullText(event, index); }}>{showFullText[index] ? 'Show Summary' : 'Show Full Text'}</Button>                  <Button basic color='black' onClick={(event) => handleReadBookClick(event, index)}>Primary Source</Button>
                 </div>
               </Card.Content>
             </React.Fragment>

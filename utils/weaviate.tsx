@@ -1,5 +1,5 @@
 // Should be ready to go with individual summaries when we ready.
-import { WeaviateResponse, ExtractedData } from '../types/weaviate';
+import { WeaviateResponse, ExtractedData, ExtractedDataLibrary } from '../types/weaviate';
 import weaviate, { AuthUserPasswordCredentials } from 'weaviate-ts-client';
 
 const WEAVIATE_USERNAME = process.env.WEAVIATE_USERNAME as string;
@@ -87,5 +87,33 @@ export async function extractData(sources: WeaviateResponse[]): Promise<Extracte
     contents,
     summaries,
     metasummary,
+  };
+}
+
+
+
+export async function extractLibraryData(sources: WeaviateResponse[]): Promise<ExtractedDataLibrary> {
+  if (!sources || sources.length === 0) {
+    return Promise.resolve({
+      titles: [],
+      headings: [],
+      contents: [],
+      summaries: [], 
+      // No metasummary field here
+    });
+  }
+
+  const titles = sources.map((r) => r.title);
+  const headings = sources.map((r) => r.heading);
+  const contents = sources.map((r) => r.content);
+  
+  const summaries = await Promise.all(contents.map(content => summarize(content, 3)));
+
+  return {
+    titles,
+    headings,
+    contents,
+    summaries,
+    // No metasummary field here
   };
 }

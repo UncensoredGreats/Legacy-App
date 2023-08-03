@@ -29,34 +29,6 @@ interface Author {
   
 
 const AUTHOR_INFO: Author[] = [
-    // {
-    // "id": "Camille Flammarion",
-    // "category": ["Mysticism", "Astronomy"],
-    // "cap_first": "Flammarion",
-    // "cluster": "Flammarion_Segments",
-    // "first": "flammarion",
-    // "last": "camille",
-    // "image": "flammarionpfp.png",
-    // "description": "Astronomer & Popular Science Writer (1842-1925) | Author of the first popular astronomy book | Wrote over 100 books on science, philosophy, & history | Mixing Science and Mysticism, Psychology and Spirit, Astrology and Wisdom | \"The universe is a great machine, and the human mind is a great key.\"",
-    // "books": [
-    //             'Astronomical Myths',
-    //             'Astronomy for Amateurs',
-    //             'Death and its Mystery',
-    //             'Haunted Houses',
-    //             'Lumen',
-    //             'Mysterious Psychic Forces',
-    //             'Omega',
-    //             'Popular Astronomy; a general description of the heavens',
-    //             'The Marvels of the Heavens',
-    //             'The Unknown',
-    //             'Thunder and Lightning',
-    //             'Travels in the Air',
-    //             'Urania'
-    //         ],
-    // "sentences_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/Camille%20Flammarion/flammarion_books_sentences.json',
-    // "segments_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/Camille%20Flammarion/flammarion_books_segments.json',
-    // "paragraphs_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/Camille%20Flammarion/flammarion_books_paragraphs.json'
-    // },
     {
     "id": "Benjamin Franklin",
     "category": ["Philosophy", "Science"],
@@ -96,6 +68,34 @@ const AUTHOR_INFO: Author[] = [
     "segments_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/data/Carl%20Jung/jung_books_segments.json',
     "paragraphs_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/data/Carl%20Jung/jung_books_paragraphs.json'
     },
+        // {
+    // "id": "Camille Flammarion",
+    // "category": ["Mysticism", "Astronomy"],
+    // "cap_first": "Flammarion",
+    // "cluster": "Flammarion_Segments",
+    // "first": "flammarion",
+    // "last": "camille",
+    // "image": "flammarionpfp.png",
+    // "description": "Astronomer & Popular Science Writer (1842-1925) | Author of the first popular astronomy book | Wrote over 100 books on science, philosophy, & history | Mixing Science and Mysticism, Psychology and Spirit, Astrology and Wisdom | \"The universe is a great machine, and the human mind is a great key.\"",
+    // "books": [
+    //             'Astronomical Myths',
+    //             'Astronomy for Amateurs',
+    //             'Death and its Mystery',
+    //             'Haunted Houses',
+    //             'Lumen',
+    //             'Mysterious Psychic Forces',
+    //             'Omega',
+    //             'Popular Astronomy; a general description of the heavens',
+    //             'The Marvels of the Heavens',
+    //             'The Unknown',
+    //             'Thunder and Lightning',
+    //             'Travels in the Air',
+    //             'Urania'
+    //         ],
+    // "sentences_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/Camille%20Flammarion/flammarion_books_sentences.json',
+    // "segments_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/Camille%20Flammarion/flammarion_books_segments.json',
+    // "paragraphs_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/Camille%20Flammarion/flammarion_books_paragraphs.json'
+    // },
     {
     "id": "Charles Darwin",
     "category": ["Naturalism"],

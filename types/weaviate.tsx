@@ -32,3 +32,9 @@ export type ExtractedData = {
   metasummary: string[];
 };
 
+export type ExtractedDataLibrary = {
+  titles: string[];
+  headings: string[];
+  contents: string[];
+  summaries: string[][];
+}
