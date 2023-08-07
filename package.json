@@ -18,6 +18,7 @@
     "@supabase/auth-ui-react": "^0.4.2",
     "@supabase/auth-ui-shared": "^0.1.6",
     "@supabase/supabase-js": "^2.25.0",
+    "antd": "^5.8.2",
     "csv-writer": "^1.6.0",
     "encoding": "^0.1.13",
     "epubjs": "^0.3.93",

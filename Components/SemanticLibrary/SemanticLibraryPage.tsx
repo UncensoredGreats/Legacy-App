@@ -1,151 +1,101 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Dropdown, DropdownItemProps, Input, Progress } from 'semantic-ui-react';
-import CardComponent from './CardComponent';
+import React, { useState, useCallback } from 'react';
+import { Select, Input, Button, Card, List, Spin, Image, Typography, Space, Divider } from 'antd';
+import { SearchOutlined, BookOutlined, RetweetOutlined } from '@ant-design/icons';
 import AUTHOR_INFO from '../../data/author_data';
+import { handleReadBookClick } from '../../utils/handleReadBookClick';
+
+const { Option } = Select;
+const { Title, Text, Paragraph } = Typography;
 
 const defaultAuthor = "Random";
-
 const SemanticLibraryPage = () => {
     const [searchValue, setSearchValue] = useState('');
     const [data, setData] = useState(null);
-    const [activeIndex, setActiveIndex] = useState(-1);
-    const [activeTab, setActiveTab] = useState(null);
+    const [isFlipped, setIsFlipped] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedAuthor, setSelectedAuthor] = useState(defaultAuthor);
     const [submittedSearchValue, setSubmittedSearchValue] = useState('');
 
+    const handleAuthorChange = value => setSelectedAuthor(value);
+    const handleSearchChange = e => setSearchValue(e.target.value);    
+    const handleKeyPress = (e) => { if (e.key === 'Enter') handleSearchSubmit(); };
 
-    const handleAuthorChange = (e, { value }) => setSelectedAuthor(value);
-
-    const handleSearchChange = (e, { value }) => {
-        setSearchValue(value);
-    };    
-
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            setSubmittedSearchValue(searchValue);
-            handleSearchSubmit();
-        }
-    };
-    
     const handleSearchSubmit = useCallback(async () => {
-        if (submittedSearchValue.trim() !== '') {
+        if (searchValue.trim() !== '') {
+            setSubmittedSearchValue(searchValue);
             setIsLoading(true);
             const response = await fetch('/api/semantic-library', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: submittedSearchValue, author: selectedAuthor }),
+                body: JSON.stringify({ query: searchValue, author: selectedAuthor }),
             });
             if (response.ok) setData(await response.json());
             setIsLoading(false);
         }
-    }, [submittedSearchValue, selectedAuthor]);
-    
-    
-    const handleClick = (index, tab) => {
-        setActiveIndex(index === activeIndex && tab === activeTab ? -1 : index);
-        setActiveTab(tab === activeTab ? null : tab);
-    }
+    }, [searchValue, selectedAuthor]);
 
-    const handleReadBookClick = (currentAuthorId, currentTitle) => {
-        const titleClustered = currentTitle.split(" ").join("_");
-        const authorLink = currentAuthorId.split(" ").join("_");
-
-        if (authorLink === "Grecko_Romans") {
-            window.open("https://classics.mit.edu/Browse/index.html", '_blank');
-        } else if (authorLink === "Carl_Jung") {
-            window.open("https://archive.org/details/jung-carl-gustav-complete/01%20Psychiatric%20Studies/", '_blank');
-        } else {
-            const bookUrl = `https://uncensoredgreatsebooks.s3.us-east-2.amazonaws.com/${authorLink}/${authorLink}@@${titleClustered}.epub`;
-            const readerAppUrl = "https://www.semantic-library.com";
-            const url = new URL(readerAppUrl);
-            url.searchParams.set("bookPath", bookUrl);
-            window.open(url.href, '_blank');
-        }
+    const handleReadBook = (currentAuthorId, currentTitle) => {
+        handleReadBookClick(currentAuthorId, currentTitle);
     };
-
-    const authorOptions: DropdownItemProps[] = [
-        { text: defaultAuthor, value: defaultAuthor },
-        ...AUTHOR_INFO.map(author => ({ text: author.id, value: author.id }))
-    ];
-
 
     return (
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px' }}>
-            {/* Introduction */}
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-                <h1>The Perfect Way to Find Your Next Read</h1>
-                <p>Search book sections by semantic meaning. Then, delve deeper as you please!</p>
+                <Title level={1}>The Perfect Way to Find Your Next Read</Title>
+                <Text type="secondary">Search book sections by semantic meaning. Then, delve deeper as you please!</Text>
             </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center', margin: '30px auto' }}>
-                {/* Author Dropdown */}
-                <Dropdown 
-                    button
-                    basic
-                    floating
-                    options={authorOptions}
-                    defaultValue='Random'
-                    onChange={handleAuthorChange}
-                    style={{ marginRight: '10px' }}
-                />
-
-                {/* Search Input */}
-                <Input 
-                    style={{ width: '100%' }}
-                    action={{ icon: "search", color: "blue", onClick: handleSearchSubmit }}
+            <Space align="center" style={{ display: 'flex', justifyContent: 'center', margin: '30px auto' }}>
+                <Select defaultValue={defaultAuthor} style={{ width: 120 }} onChange={handleAuthorChange}>
+                    <Option value={defaultAuthor}>{defaultAuthor}</Option>
+                    {AUTHOR_INFO.map(author => (
+                        <Option key={author.id} value={author.id}>{author.id}</Option>
+                    ))}
+                </Select>
+                <Input.Search
                     placeholder="Type a topic or a query..."
+                    enterButton={<Button type="primary"><SearchOutlined /></Button>}
                     size="large"
-                    fluid
                     onChange={handleSearchChange}
-                    onKeyPress={handleKeyPress}
+                    onSearch={handleSearchSubmit}
+                    style={{ width: '75%' }}
                 />
-            </div>
-
-            {/* Progress Bar */}
-            {isLoading && <Progress percent={100} indicating />}
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '30px', position: 'relative' }}>
+            </Space>
+            {isLoading && <Spin size="large" />}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: 'calc(100vh - 200px)', position: 'relative' }}>
                 {data && data.titles.map((title, index) => {
                     const currentAuthor = data.authors[index];
+                    const heading = data.headings[index];
                     const imagePath = `/images/${currentAuthor?.id}.png`;
-
                     return (
-                        <React.Fragment key={title}>
-                            {/* Main Card */}
-                            <CardComponent
-                                currentAuthor={currentAuthor}
-                                title={title}
-                                imagePath={imagePath}
-                                heading={data.headings[index]}
-                                index={index}
-                                isActive={activeIndex === index}
-                                handleClick={handleClick}
-                                handleReadBookClick={handleReadBookClick}
-                                summaries={data.summaries}
-                                contents={data.contents}
+                        <Card style={{ width: '80%', marginTop: '20px' }} key={title}>
+                            <Image src={imagePath} alt={title} />
+                            <Divider />
+                            <Card.Meta
+                                title={<Title level={2}>{title}</Title>}
+                                description={<Text type="secondary"><em>{currentAuthor?.id} | Page {heading}</em></Text>}
                             />
-    
-                            {/* Expanding Container */}
-                            {(index === data.titles.length - 1 || activeIndex === index) && (
-                                <div style={{ gridColumn: '1 / -1', maxHeight: activeIndex === index ? '300px' : '0', overflow: 'hidden', transition: 'max-height 0.5s ease-out', backgroundColor: 'rgba(255,255,255,0.9)', padding: '20px', boxShadow: '0px 0px 15px rgba(0,0,0,0.15)', zIndex: 10 }}>
-                                    {activeTab === 'quotes' && (
-                                        <ul>
-                                            {data.summaries[activeIndex].map((sentence, sIndex) => (
-                                                <li key={sIndex} style={{ marginBottom: '10px' }}>{sentence.trim()}</li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                    {activeTab === 'page' && <p>{data.contents[activeIndex]}</p>}
-                                </div>
+                            {!isFlipped ? (
+                                <>
+                                    <Text strong style={{fontSize: "16px", marginBottom: "10px"}}>Key Sentences: </Text>
+                                    <List
+                                        size="small"
+                                        dataSource={data.summaries[index]}
+                                        renderItem={sentence => <List.Item>{(sentence as string)?.trim()}</List.Item>}
+                                    />
+                                </>
+                            ) : (
+                                <Paragraph>{data.contents[index]}</Paragraph>
                             )}
-                        </React.Fragment>
+                            <Space>
+                                <Button type="primary" icon={<BookOutlined />} onClick={() => handleReadBookClick(currentAuthor.id, title)}>Read the whole book</Button>
+                                <Button icon={isFlipped ? <RetweetOutlined /> : <RetweetOutlined rotate={180} />} onClick={() => setIsFlipped(!isFlipped)} />
+                            </Space>
+                        </Card>
                     );
                 })}
             </div>
         </div>
     );
 };
-
 
 export default SemanticLibraryPage;

@@ -1,5 +1,6 @@
 // Added Summaries to the SourceCards
 import React from 'react';
+import { handleReadBookClick } from '../../utils/handleReadBookClick';
 import { Card, Button } from 'semantic-ui-react';
 import { useState, useEffect } from 'react';
 
@@ -58,31 +59,36 @@ const SourceCards: React.FC<SourceCardsProps> = ({  authorId, title, heading, co
     setFlipped(newFlippedStatus);
   };
 
-  const handleReadBookClick = (event, index) => {
+  // const handleReadBookClick = (event, index) => {
+  //   event.stopPropagation();
+  
+  //   const currentSourceTitle = sources[index].title;
+  //   const titleClustered = currentSourceTitle.split(" ").join("_");
+  //   const authorLink = authorId.split(" ").join("_");
+  
+  //   let bookUrl = '';
+  
+  //   // Check the authorId and decide the URL accordingly
+  //   if (authorLink === "Grecko_Romans") {
+  //     window.open("https://classics.mit.edu/Browse/index.html", '_blank');
+  //     return; // stop execution after opening the URL
+  //   } else if (authorLink === "Carl_Jung") {
+  //     window.open("https://archive.org/details/jung-carl-gustav-complete/01%20Psychiatric%20Studies/", '_blank');
+  //     return; // stop execution after opening the URL
+  //   } else {
+  //     bookUrl = `https://uncensoredgreatsebooks.s3.us-east-2.amazonaws.com/${authorLink}/${authorLink}@@${titleClustered}.epub`;
+  //   }
+  
+  //   let readerAppUrl = "https://www.semantic-library.com";
+  //   let url = new URL(readerAppUrl);
+  //   url.searchParams.set("bookPath", bookUrl);
+  //   window.open(url.href, '_blank');
+  // };
+
+  const handleReadBook = (event, index) => {
     event.stopPropagation();
-  
-    const currentSourceTitle = sources[index].title;
-    const titleClustered = currentSourceTitle.split(" ").join("_");
-    const authorLink = authorId.split(" ").join("_");
-  
-    let bookUrl = '';
-  
-    // Check the authorId and decide the URL accordingly
-    if (authorLink === "Grecko_Romans") {
-      window.open("https://classics.mit.edu/Browse/index.html", '_blank');
-      return; // stop execution after opening the URL
-    } else if (authorLink === "Carl_Jung") {
-      window.open("https://archive.org/details/jung-carl-gustav-complete/01%20Psychiatric%20Studies/", '_blank');
-      return; // stop execution after opening the URL
-    } else {
-      bookUrl = `https://uncensoredgreatsebooks.s3.us-east-2.amazonaws.com/${authorLink}/${authorLink}@@${titleClustered}.epub`;
-    }
-  
-    let readerAppUrl = "https://www.semantic-library.com";
-    let url = new URL(readerAppUrl);
-    url.searchParams.set("bookPath", bookUrl);
-    window.open(url.href, '_blank');
-  };
+    handleReadBookClick(authorId, sources[index].title);
+};
   
   
   const toggleFullText = (event, index: number) => {
@@ -119,10 +125,17 @@ const SourceCards: React.FC<SourceCardsProps> = ({  authorId, title, heading, co
               <Card.Content style={{ fontFamily: 'Times New Roman', fontSize: '15px', color: 'black' }}>
                 {showFullText[index] ? source.content : source.summary}
               </Card.Content>
-              <Card.Content>
+              {/* <Card.Content>
                 <div className='ui two buttons'>
-                  <Button basic color='blue' onClick={(event) => { event.stopPropagation(); toggleFullText(event, index); }}>{showFullText[index] ? 'Show Summary' : 'Show Full Text'}</Button>                  <Button basic color='black' onClick={(event) => handleReadBookClick(event, index)}>Primary Source</Button>
+                  <Button basic color='blue' onClick={(event) => { event.stopPropagation(); toggleFullText(event, index); }}>{showFullText[index] ? 'Show Summary' : 'Show Full Text'}</Button>                 
+                  <Button basic color='black' onClick={(event) => handleReadBookClick(event, index)}>Primary Source</Button>
                 </div>
+              </Card.Content> */}
+              <Card.Content>
+                  <div className='ui two buttons'>
+                      <Button basic color='blue' onClick={(event) => { event.stopPropagation(); toggleFullText(event, index); }}>{showFullText[index] ? 'Show Summary' : 'Show Full Text'}</Button>                 
+                      <Button basic color='black' onClick={(event) => handleReadBook(event, index)}>Primary Source</Button>
+                  </div>
               </Card.Content>
             </React.Fragment>
           )}

@@ -107,8 +107,6 @@
 
 
 
-
-
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Card, Divider, Grid } from 'semantic-ui-react';
@@ -125,12 +123,12 @@ type AuthorAvatarProps = {
 };
 
 const PublicAuthorMessage = ({ 
-  post, 
-  authorId, 
-  isFlipped, 
-  flipCard, 
-  animationPlayed, 
-  setAnimationPlayed 
+  post,
+  authorId,
+  isFlipped,
+  flipCard,
+  animationPlayed,
+  setAnimationPlayed
 }) => {
   let userQuestion = "There was an error retrieving the user query.";
 
@@ -214,3 +212,19 @@ const PublicAuthorMessage = ({
 };
 
 export default PublicAuthorMessage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

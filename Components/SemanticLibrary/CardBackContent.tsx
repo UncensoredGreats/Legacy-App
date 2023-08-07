@@ -35,48 +35,90 @@
 
 
 
-import React from 'react';
-import { Icon } from 'semantic-ui-react';
+// import React from 'react';
+// import { Icon } from 'semantic-ui-react';
 
-interface CardBackContentProps {
-  currentAuthor: {
-    id?: string;
-  };
-  title: string;
-  handleClick: (index: number, type: string) => void;
-  handleReadBookClick: (authorId: string, title: string) => void;
-  index: number;
-  summaries: string[][];
-  contents: string[];
-}
+// interface CardBackContentProps {
+//   currentAuthor: {
+//     id?: string;
+//   };
+//   title: string;
+//   handleClick: (index: number, type: string) => void;
+//   handleReadBookClick: (authorId: string, title: string) => void;
+//   index: number;
+//   summaries: string[][];
+//   contents: string[];
+// }
 
-const CardBackContent: React.FC<CardBackContentProps> = ({ currentAuthor, title, handleClick, handleReadBookClick, index, summaries, contents }) => {
-  const [activeTab, setActiveTab] = React.useState('quotes');
+// const CardBackContent: React.FC<CardBackContentProps> = ({ currentAuthor, title, handleClick, handleReadBookClick, index, summaries, contents }) => {
+//   const [activeTab, setActiveTab] = React.useState('quotes');
 
-  return (
-    <div style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
-      <div onClick={() => setActiveTab('quotes')}>
-        <Icon name='quote left' size='large' />
-        <p>View key sentences</p>
-      </div>
-      {activeTab === 'quotes' && summaries[index] && (
-        <ul>
-          {summaries[index].map((sentence, sIndex) => (
-            <li key={sIndex} style={{ marginBottom: '10px' }}>{sentence.trim()}</li>
-          ))}
-        </ul>
-      )}
-      <div onClick={() => setActiveTab('page')}>
-        <Icon name='file text' size='large' />
-        <p>Read snippet</p>
-      </div>
-      {activeTab === 'page' && contents[index] && <p>{contents[index]}</p>}
-      <div onClick={() => handleReadBookClick(currentAuthor.id, title)}>
-        <Icon name='book' size='large' />
-        <p>Read the whole book</p>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column' }}>
+//       <div onClick={() => setActiveTab('quotes')}>
+//         <Icon name='quote left' size='large' />
+//         <p>View key sentences</p>
+//       </div>
+//       {activeTab === 'quotes' && summaries[index] && (
+//         <ul>
+//           {summaries[index].map((sentence, sIndex) => (
+//             <li key={sIndex} style={{ marginBottom: '10px' }}>{sentence.trim()}</li>
+//           ))}
+//         </ul>
+//       )}
+//       <div onClick={() => setActiveTab('page')}>
+//         <Icon name='file text' size='large' />
+//         <p>Read snippet</p>
+//       </div>
+//       {activeTab === 'page' && contents[index] && <p>{contents[index]}</p>}
+//       <div onClick={() => handleReadBookClick(currentAuthor.id, title)}>
+//         <Icon name='book' size='large' />
+//         <p>Read the whole book</p>
+//       </div>
+//     </div>
+//   );
+// };
 
-export default CardBackContent;
+// export default CardBackContent;
+
+
+
+
+
+
+
+
+
+// import React from 'react';
+// import { Icon } from 'semantic-ui-react';
+
+// interface CardBackContentProps {
+//   currentAuthor: {
+//     id?: string;
+//   };
+//   title: string;
+//   handleReadBookClick: (authorId: string, title: string) => void;
+//   index: number;
+//   contents: string[];
+// }
+
+// const CardBackContent: React.FC<CardBackContentProps> = ({ currentAuthor, title, handleReadBookClick, index, contents }) => {
+//   return (
+//     <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+//       {/* Display the page content here */}
+//       <div>
+//         <Icon name='file text' size='large' />
+//         <p>Read snippet</p>
+//         {contents[index] && <p>{contents[index]}</p>}
+//       </div>
+
+//       {/* The "Read the whole book" button */}
+//       <div onClick={() => handleReadBookClick(currentAuthor.id, title)}>
+//         <Icon name='book' size='large' />
+//         <p>Read the whole book</p>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CardBackContent;
