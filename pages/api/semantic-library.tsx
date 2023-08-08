@@ -26,7 +26,7 @@
 //     });
 
 //     const sortedAuthors = Object.keys(similarities).sort((a, b) => similarities[b] - similarities[a]);
-//     return sortedAuthors.slice(0, 1);
+//     return sortedAuthors.slice(0, 3);
 // }
 
 // export default async function handler(req, res) {
