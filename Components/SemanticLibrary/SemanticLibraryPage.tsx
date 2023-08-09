@@ -1,17 +1,38 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { Select, Input, Button, Card, List, Spin, Image, Typography, Space, Tooltip } from 'antd';
-import { SearchOutlined, BookOutlined, RetweetOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import AUTHOR_INFO from '../../data/author_data';
 import { handleReadBookClick } from '../../utils/handleReadBookClick';
 
 const { Option } = Select;
 const { Title, Text, Paragraph } = Typography;
-
 const defaultAuthor = "All Books";
+
+function sanitizeTitleForFilename(title) {
+    return title.replace(/[\/\\\?\*\:\|\<\>\"\.\,\[\]\-\(\)\—]/g, '');
+}
+
+
+function useWindowWidth() {
+    const [windowWidth, setWindowWidth] = useState(undefined);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setWindowWidth(window.innerWidth);
+            const handleResize = () => setWindowWidth(window.innerWidth);
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        }
+    }, []);
+
+    return windowWidth;
+}
+
 const SemanticLibraryPage = () => {
     const [searchValue, setSearchValue] = useState('');
     const [data, setData] = useState(null);
-    const [isFlipped, setIsFlipped] = useState(false);
+    const [isFlipped, setIsFlipped] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedAuthor, setSelectedAuthor] = useState(defaultAuthor);
     const [submittedSearchValue, setSubmittedSearchValue] = useState('');
@@ -19,7 +40,11 @@ const SemanticLibraryPage = () => {
 
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth && windowWidth <= 768;
-
+    const gridStyle = {
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr',
+        gap: '20px'
+    };
 
     const handleAuthorChange = value => setSelectedAuthor(value);
     const handleSearchChange = e => setSearchValue(e.target.value);
@@ -34,10 +59,22 @@ const SemanticLibraryPage = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ query: searchValue, author: selectedAuthor }),
             });
-            if (response.ok) setData(await response.json());
+            if (response.ok) {
+                const responseData = await response.json();
+                setData(responseData);
+                setIsFlipped(new Array(responseData.titles.length).fill(false));
+            }
             setIsLoading(false);
         }
     }, [searchValue, selectedAuthor]);
+
+    const toggleFlipped = (index) => {
+        setIsFlipped(prevFlipped => {
+            const newFlipped = [...prevFlipped];
+            newFlipped[index] = !newFlipped[index];
+            return newFlipped;
+        });
+    };
 
     const handleReadBook = (currentAuthorId, currentTitle) => {
         handleReadBookClick(currentAuthorId, currentTitle);
@@ -50,32 +87,13 @@ const SemanticLibraryPage = () => {
         }));
     };
 
-    function sanitizeTitleForFilename(title: string): string {
-        return title.replace(/[\/\\\?\*\:\|\<\>\"\.\,\[\]\-\(\)\—]/g, '');
-      }
-
-    function useWindowWidth(): number | undefined {
-        const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
-
-        useEffect(() => {
-            setWindowWidth(window.innerWidth);
-
-            const handleResize = () => {
-                setWindowWidth(window.innerWidth);
-            };
-
-            window.addEventListener('resize', handleResize);
-            return () => window.removeEventListener('resize', handleResize);
-        }, []);
-
-        return windowWidth;
-    }
-    
-    const gridStyle = {
-        display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr',
-        gap: '20px'
-    };
+    const BreakLineWithText = ({ text }) => (
+        <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
+            <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
+            <span style={{ margin: '0 10px', color: '#888', fontSize: '0.8rem' }}>{text}</span>
+            <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
+        </div>
+    );
 
 
     if (typeof window !== "undefined") {
@@ -84,13 +102,10 @@ const SemanticLibraryPage = () => {
         }
     }
 
-    // import { Select, Input, Button, Card, List, Spin, Image, Typography, Space, Tooltip } from 'antd';
-    // ...
-
     return (
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-                <Title level={1}>Welcome to the Semantic Library</Title>
+                <Title level={1}>What would you like to read?</Title>
                 <Text type="secondary">Enter a meaningful idea, get the most related book sections. Then, delve deeper as you please!</Text>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
@@ -126,7 +141,7 @@ const SemanticLibraryPage = () => {
                     console.log(bookImagePath);
         
                     return (
-                        <Card style={{ width: '90%', marginTop: '20px', marginBottom: '20px' }}>
+                        <Card style={{ width: '100%', marginTop: '20px', marginBottom: '20px' }}>
                             <div key={title} style={gridStyle}>
                                 <div>
                                     <Title level={4} style={{ marginBottom: '10px' }}>{title}</Title>
@@ -147,7 +162,7 @@ const SemanticLibraryPage = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <Text strong style={{fontSize: "16px", marginBottom: "10px"}}>Key Sentences: </Text>
+                                    <BreakLineWithText text="Key Sentences" />
                                     <List
                                         size="small"
                                         dataSource={data.summaries[index]}
@@ -155,17 +170,20 @@ const SemanticLibraryPage = () => {
                                     />
                                 </div>
                             </div>
-                            {isFlipped &&
-                                <div style={{ width: '100%', marginTop: '5px', marginBottom: '20px' }}>
-                                    <Paragraph>{data.contents[index]}</Paragraph>
-                                    <Space>
-                                        <Button onClick={() => setIsFlipped(!isFlipped)}>Hide</Button>
-                                    </Space>
-                                </div>
+                            {isFlipped[index] &&
+                                <>
+                                    <BreakLineWithText text="Book Section" />
+                                    <div style={{ width: '100%', marginTop: '5px', marginBottom: '20px' }}>
+                                        <Paragraph>{data.contents[index]}</Paragraph>
+                                        <Space>
+                                            <Button onClick={() => toggleFlipped(index)}>Show Key Sentences</Button>
+                                        </Space>
+                                    </div>
+                                </>
                             }
-                            {!isFlipped &&
+                            {!isFlipped[index] &&
                                 <Space style={{ display: 'block', textAlign: 'right', width: '100%' }}>
-                                    <Button onClick={() => setIsFlipped(!isFlipped)}>Show Section</Button>
+                                    <Button onClick={() => toggleFlipped(index)}>Show Whole Book Section</Button>
                                 </Space>
                             }
                         </Card>
