@@ -31,14 +31,14 @@ interface Author {
 const AUTHOR_INFO: Author[] = [
     {
     "id": "Benjamin Franklin",
-    "category": ["Philosophy", "Science"],
+    "category": ["Philosophy", "Science", "American History", "Politics", "Inventions", "Philosophy", "Government", "Pioneer"],
     "cluster": "Benjamin_Franklin",
     "image": "Benjamin Franklin.png",
     "description": "Pioneering Visionary & Distinguished Polymath (1706-1790) | Trailblazer in the Discovery of Electricity & Foundational Contributor to the Birth of the United States | Illustrious Founder of the American Philosophical Association | Co-Author of the Declaration of Independence | A luminary who, despite his monumental achievements, once humbly professed, 'I may not be a man of unparalleled greatness, but I am, undeniably, a man of virtue and worth.'",
     },
     {
     "id": "Carl Jung",
-    "category": ["Psychology", "Mysticism", "Philosophy"],
+    "category": ["Psychology", "Mysticism", "Philosophy", "Religion", "Spirituality", "Life", "Psyche", "Analytical Psychology", "Archetypes", "Individuation", "Symbolic Life", "Dreams"],
     "cap_first": "Carl",
     "cluster": "Carl_Jung",
     "first": "carl",
@@ -98,7 +98,7 @@ const AUTHOR_INFO: Author[] = [
     // },
     {
     "id": "Charles Darwin",
-    "category": ["Naturalism"],
+    "category": ["Naturalism", "Science", "Evolution", "Discoveries", "Galapagos", "Birds", "Species", "Animals", "Plants", "Fossils", "Geology"],
     "cap_first": "Darwin",
     "cluster": "Charles_Darwin",
     "first": "charles",
@@ -155,7 +155,7 @@ const AUTHOR_INFO: Author[] = [
     // },
     {
     "id": "Friedrich Nietzsche",
-    "category": ["Philosophy"],
+    "category": ["Philosophy", "Religion", "German", "German Literature", "Sociology", "Morality", "Professor", "Nihilism", "Geneology"],
     "cap_first": "Nietzsche",
     "cluster": "Friedrich_Nietzsche",
     "first": "friedrich",
@@ -215,14 +215,14 @@ const AUTHOR_INFO: Author[] = [
 //     },
     {
     "id": "Grecko Romans",
-    "category": ["Philosophy"],
+    "category": ["Philosophy", "Empires", "History", "Politics", "Religion", "Art", "Epic", "Mythology", "Ancient Greece", "Ancient Rome"],
     "cluster": "Greco_Sections",
     "image": "greckopfp.png",
     "description": "The collected works of: Aeschylus | Aestop | Apollonius | Apuleius | Aristophanes | Aristotle | Augustus | Epictetus | Epicurus | Euripides | Galen | Herodotus | Hippocrates| Homer | Julius Caesar | Licretius | Marcus Aurelius | Ovid | Plato | Plotinus | Plutarch | Porphyry | Quintus | Sophocles | Tacitus | Thucydides | Virgil",
     },
     {
     "id": "Henry David Thoreau",
-    "category": ["Naturalism", "Philosophy", "Civil Rights"],
+    "category": ["Naturalism", "Philosophy", "Civil Rights", "Literature", "Nature", "Happiness", "American History", "Forest", "Wilderness", "Self-Reliance"],
     "cap_first": "Thoreau",
     "cluster": "Henry_David_Thoreau",
     "first": "henry",
@@ -421,9 +421,9 @@ const AUTHOR_INFO: Author[] = [
 //     "paragraphs_json": 'https://raw.githubusercontent.com/evanmcfarland/A-Statistical-Approach-to-Happiness/main/Richard%20Wagner/wagner_books_paragraphs.json'
 //     },
     {"id": "The Occult",
-    "category": ["Mysticism"],
+    "category": ["Mysticism", "Psychology", "Religion", "Truth", "Seeking", "Spirituality", "Discovery", "Occult", "Esotericism", "Secrets", "Enlightenment", "Idealism"],
     "cluster": "The_Occult",
-    "image": "occultpfp.png",
+   "image": "occultpfp.png",
     "description": "Top 20 Books by Popularity, aggregated by Julie of globalgreyebooks.com: General Book of the Tarot | Black Pullet | Book of Forbidden Knowledge | Grand Grimoire with Great Clavicle of Solomon | The Simon Necronomicon | Book of Ceremonial Magic | Psychic Self Defense | Dogma et Rituel de la Haute Magie Part I | Dogma et Rituel de la Haute Magie Part II | Philosophy of Natural Magic | Goal of Life | Sixth and Seventh Books of Moses | The Chymical Wedding of Christian Rosenkreutz | Secret Teachings of All Ages | Symbolism of the Tarot | The Tarot of the Bohemians | Key of Solomon the King | Mathers Sacred Magic of Abramelin the Mage | Kybalion | Numbers Their Occult Power and Mystic Virtues",
     "books": [
             'The Occult',
@@ -431,7 +431,7 @@ const AUTHOR_INFO: Author[] = [
     },
     {
     "id": "Thoth",
-    "category": ["Mysticism"],
+    "category": ["Mysticism", "Hermeticism", "Thoth", "Esotericism"],
     "cap_first": "Hermes",
     "cluster": "Hermes_Segments",
     "first": "hermes",
@@ -506,7 +506,7 @@ const AUTHOR_INFO: Author[] = [
 //     },
     {
         "id": "Sigmund Freud",
-        "category": ["Psychology"],
+        "category": ["Psychology", "Sexuality", "Psychoanalysis", "Freud", "Dreams", "Oedipus Complex", "Materialism"],
         "cluster": "Sigmund_Freud",
         "first": "sigmund",
         "last": "freud",
