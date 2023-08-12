@@ -1,18 +1,20 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { Select, Input, Button, Card, List, Spin, Image, Typography, Space, Tooltip } from 'antd';
+import { Select, Input, Button, Spin, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import AUTHOR_INFO from '../../data/author_data';
 import { handleReadBookClick } from '../../utils/handleReadBookClick';
+import AUTHOR_INFO from '../../data/author_data';
+import VirtualBookShelfComponent from './VirtualBookshelfComponent';
+import BookCard from './BookCard';
+
 
 const { Option } = Select;
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 const defaultAuthor = "All Books";
 
 function sanitizeTitleForFilename(title) {
-    return title.replace(/[\/\\\?\*\:\|\<\>\"\.\,\[\]\-\(\)\—]/g, '');
+    return title.replace(/[\/\\\?\*\:\|\<\>\"\.\[\]\,\-\(\)\—]/g, '');
 }
-
 
 function useWindowWidth() {
     const [windowWidth, setWindowWidth] = useState(undefined);
@@ -87,14 +89,6 @@ const SemanticLibraryPage = () => {
         }));
     };
 
-    const BreakLineWithText = ({ text }) => (
-        <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
-            <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
-            <span style={{ margin: '0 10px', color: '#888', fontSize: '0.8rem' }}>{text}</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: '#ccc' }}></div>
-        </div>
-    );
-
 
     if (typeof window !== "undefined") {
         if (window.innerWidth <= 768) {
@@ -103,99 +97,59 @@ const SemanticLibraryPage = () => {
     }
 
 
-return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
-        
-        <header style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <Title level={1}>What would you like to read?</Title>
-            <Text type="secondary">Enter a meaningful idea, get the most related book sections. Then, delve deeper as you please!</Text>
-        </header>
+    return (
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+            <VirtualBookShelfComponent />
+            <header style={{ textAlign: 'center', marginBottom: '40px' }}>
+                <Title level={1}>What would you like to read?</Title>
+                <Text type="secondary">Enter a meaningful idea, get the most related book sections. Then, delve deeper as you please!</Text>
+            </header>
 
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '40px' }}>
-            <Select 
-                placeholder="Choose an author"
-                style={{ width: '20%', marginRight: '2%', minWidth: '180px' }} 
-                onChange={handleAuthorChange}
-                defaultValue={defaultAuthor}
-            >
-                {AUTHOR_INFO.map(author => (
-                    <Option key={author.id} value={author.id}>{author.id}</Option>
-                ))}
-            </Select>
-            <Input.Search
-                placeholder="Type a topic or a query..."
-                enterButton={<Button type="primary"><SearchOutlined /></Button>}
-                size="large"
-                onChange={handleSearchChange}
-                onSearch={handleSearchSubmit}
-                style={{ width: '78%' }}
-            />
-        </div>
-
-        {isLoading ? 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-                <Spin size="large" />
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '40px' }}>
+                <Select 
+                    placeholder="Choose an author"
+                    style={{ width: '20%', marginRight: '2%', minWidth: '180px' }} 
+                    onChange={handleAuthorChange}
+                    defaultValue={defaultAuthor}
+                >
+                    {AUTHOR_INFO.map(author => (
+                        <Option key={author.id} value={author.id}>{author.id}</Option>
+                    ))}
+                </Select>
+                <Input.Search
+                    placeholder="Type a topic or a query..."
+                    enterButton={<Button type="primary"><SearchOutlined /></Button>}
+                    size="large"
+                    onChange={handleSearchChange}
+                    onSearch={handleSearchSubmit}
+                    style={{ width: '78%' }}
+                />
             </div>
-        : 
-            data && data.titles.map((title, index) => {
-                const currentAuthor = data.authors[index];
-                const heading = data.headings[index];
-                const bookImagePath = `/bookimages/${currentAuthor?.id}/${sanitizeTitleForFilename(title)}.png`;
-                const authorImagePath = `/images/${currentAuthor?.id}.png`;
-                const fallbackImage = `/fallbackimage.png`; // default image in case both main and author images fail
-                
-                return (
-                    <Card style={{ width: '100%', marginTop: '30px', marginBottom: '30px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-                        <div key={title} style={gridStyle}>
-                            <div>
-                                <Title level={4} style={{ marginBottom: '15px' }}>{title}</Title>
-                                <Text type="secondary" style={{ display: 'block', marginBottom: '25px', textAlign: 'center' }}><em>{currentAuthor?.id} | Page {heading}</em></Text>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Tooltip title="Read Book">
-                                        <Image 
-                                            src={imageError[title] ? (authorImagePath || fallbackImage) : bookImagePath} 
-                                            alt={title} 
-                                            onError={() => handleImageError(title)}
-                                            width={250}
-                                            height={250}
-                                            style={{ cursor: 'pointer', borderRadius: '4px' }}
-                                            onClick={() => handleReadBookClick(currentAuthor.id, title)}
-                                            preview={false}
-                                        />
-                                    </Tooltip>
-                                </div>
-                            </div>
-                            <div>
-                                <BreakLineWithText text="Key Sentences" />
-                                <List
-                                    size="small"
-                                    dataSource={data.summaries[index]}
-                                    renderItem={sentence => <List.Item>{(sentence as string)?.trim()}</List.Item>}
-                                />
-                            </div>
-                        </div>
-                        {isFlipped[index] &&
-                            <>
-                                <BreakLineWithText text="Book Section" />
-                                <div style={{ width: '100%', marginTop: '5px', marginBottom: '25px' }}>
-                                    <Paragraph>{data.contents[index]}</Paragraph>
-                                    <Space>
-                                        <Button onClick={() => toggleFlipped(index)}>Show Key Sentences</Button>
-                                    </Space>
-                                </div>
-                            </>
-                        }
-                        {!isFlipped[index] &&
-                            <Space style={{ display: 'block', textAlign: 'right', width: '100%' }}>
-                                <Button onClick={() => toggleFlipped(index)}>Show Whole Book Section</Button>
-                            </Space>
-                        }
-                    </Card>
-                );
-            })
-        }
-    </div>
-);
+
+            {isLoading ? 
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                    <Spin size="large" />
+                </div>
+            :       
+                data && data.titles.map((title, index) => (
+                    <BookCard 
+                        title={title} 
+                        currentAuthor={data.authors[index]}
+                        heading={data.headings[index]}
+                        bookImagePath={`/bookimages/${data.authors[index]?.id}/${sanitizeTitleForFilename(title)}.png`}
+                        authorImagePath={`/images/${data.authors[index]?.id}.png`}
+                        imageError={imageError}
+                        handleImageError={handleImageError}
+                        handleReadBookClick={handleReadBook}
+                        isFlipped={isFlipped[index]}
+                        toggleFlipped={() => toggleFlipped(index)}
+                        summaries={data.summaries[index]}
+                        contents={data.contents[index]}
+                    />
+                ))
+            }
+        </div>
+    );
 };
 
 export default SemanticLibraryPage;

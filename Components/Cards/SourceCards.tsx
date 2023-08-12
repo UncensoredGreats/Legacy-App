@@ -59,32 +59,6 @@ const SourceCards: React.FC<SourceCardsProps> = ({  authorId, title, heading, co
     setFlipped(newFlippedStatus);
   };
 
-  // const handleReadBookClick = (event, index) => {
-  //   event.stopPropagation();
-  
-  //   const currentSourceTitle = sources[index].title;
-  //   const titleClustered = currentSourceTitle.split(" ").join("_");
-  //   const authorLink = authorId.split(" ").join("_");
-  
-  //   let bookUrl = '';
-  
-  //   // Check the authorId and decide the URL accordingly
-  //   if (authorLink === "Grecko_Romans") {
-  //     window.open("https://classics.mit.edu/Browse/index.html", '_blank');
-  //     return; // stop execution after opening the URL
-  //   } else if (authorLink === "Carl_Jung") {
-  //     window.open("https://archive.org/details/jung-carl-gustav-complete/01%20Psychiatric%20Studies/", '_blank');
-  //     return; // stop execution after opening the URL
-  //   } else {
-  //     bookUrl = `https://uncensoredgreatsebooks.s3.us-east-2.amazonaws.com/${authorLink}/${authorLink}@@${titleClustered}.epub`;
-  //   }
-  
-  //   let readerAppUrl = "https://www.semantic-library.com";
-  //   let url = new URL(readerAppUrl);
-  //   url.searchParams.set("bookPath", bookUrl);
-  //   window.open(url.href, '_blank');
-  // };
-
   const handleReadBook = (event, index) => {
     event.stopPropagation();
     handleReadBookClick(authorId, sources[index].title);
