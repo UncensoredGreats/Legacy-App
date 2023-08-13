@@ -5,10 +5,16 @@ const VirtualBookShelf = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('/api/books/getBooks')
+    fetch('/books.json')
       .then((response) => response.json())
       .then((data) => setBooks(data));
   }, []);
+
+//   useEffect(() => {
+//     fetch('/api/books/getBooks')
+//       .then((response) => response.json())
+//       .then((data) => setBooks(data));
+//   }, []);
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>

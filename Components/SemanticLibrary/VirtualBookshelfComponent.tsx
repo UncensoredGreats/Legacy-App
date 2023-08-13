@@ -5,14 +5,23 @@ import { handleReadBookClick } from '../../utils/handleReadBookClick';
 const VirtualBookShelfComponent = () => {
   const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    fetch('/api/books/getBooks')
-      .then((response) => response.json())
-      .then((data) => {
-        const shuffledBooks = shuffleArray(data);
-        setBooks(shuffledBooks);
-      });
-  }, []);
+    useEffect(() => {
+        fetch('/books.json')
+        .then((response) => response.json())
+        .then((data) => {
+            const shuffledBooks = shuffleArray(data);
+            setBooks(shuffledBooks);
+        });
+    }, []);
+
+//   useEffect(() => {
+//     fetch('/api/books/getBooks')
+//       .then((response) => response.json())
+//       .then((data) => {
+//         const shuffledBooks = shuffleArray(data);
+//         setBooks(shuffledBooks);
+//       });
+//   }, []);
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', maxWidth: '300px', margin: '0 auto' }}>

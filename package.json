@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "generate-books": "node scripts/generateBooks.js",
+    "prebuild": "npm run generate-books",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
