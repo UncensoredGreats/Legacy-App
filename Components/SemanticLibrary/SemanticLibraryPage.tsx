@@ -4,8 +4,9 @@ import { Select, Input, Button, Spin, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { handleReadBookClick } from '../../utils/handleReadBookClick';
 import AUTHOR_INFO from '../../data/author_data';
-import VirtualBookShelfComponent from './VirtualBookshelfComponent';
+import VirtualBookShelfComponent from './VirtualBookshelf';
 import BookCard from './BookCard';
+import styles from '../../styles/SemanticLibraryPage.module.css';
 
 
 const { Option } = Select;
@@ -97,59 +98,124 @@ const SemanticLibraryPage = () => {
     }
 
 
-    return (
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
-            <VirtualBookShelfComponent />
-            <header style={{ textAlign: 'center', marginBottom: '40px' }}>
-                <Title level={1}>What would you like to read?</Title>
-                <Text type="secondary">Enter a meaningful idea, get the most related book sections. Then, delve deeper as you please!</Text>
-            </header>
+//     return (
+//         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+//             <VirtualBookShelfComponent />
+//             <header style={{ textAlign: 'center', marginBottom: '40px' }}>
+//                 <Title level={1}>What would you like to read?</Title>
+//                 <Text type="secondary">Search through 100s of books by semantic meaning. Then, delve deeper as you please!</Text>
+//             </header>
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '40px' }}>
-                <Select 
-                    placeholder="Choose an author"
-                    style={{ width: '20%', marginRight: '2%', minWidth: '180px' }} 
-                    onChange={handleAuthorChange}
-                    defaultValue={defaultAuthor}
-                >
-                    {AUTHOR_INFO.map(author => (
-                        <Option key={author.id} value={author.id}>{author.id}</Option>
-                    ))}
-                </Select>
-                <Input.Search
-                    placeholder="Type a topic or a query..."
-                    enterButton={<Button type="primary"><SearchOutlined /></Button>}
-                    size="large"
-                    onChange={handleSearchChange}
-                    onSearch={handleSearchSubmit}
-                    style={{ width: '78%' }}
-                />
-            </div>
+//             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '40px' }}>
+//                 <Select 
+//                     placeholder="Choose an author"
+//                     style={{ width: '20%', marginRight: '2%', minWidth: '180px' }} 
+//                     onChange={handleAuthorChange}
+//                     defaultValue={defaultAuthor}
+//                 >
+//                     {AUTHOR_INFO.map(author => (
+//                         <Option key={author.id} value={author.id}>{author.id}</Option>
+//                     ))}
+//                 </Select>
+//                 <Input.Search
+//                     placeholder="Type a topic or a query..."
+//                     enterButton={<Button type="primary"><SearchOutlined /></Button>}
+//                     size="large"
+//                     onChange={handleSearchChange}
+//                     onSearch={handleSearchSubmit}
+//                     style={{ width: '78%' }}
+//                 />
+//             </div>
 
-            {isLoading ? 
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-                    <Spin size="large" />
-                </div>
-            :       
-                data && data.titles.map((title, index) => (
-                    <BookCard 
-                        title={title} 
-                        currentAuthor={data.authors[index]}
-                        heading={data.headings[index]}
-                        bookImagePath={`/bookimages/${data.authors[index]?.id}/${sanitizeTitleForFilename(title)}.png`}
-                        authorImagePath={`/images/${data.authors[index]?.id}.png`}
-                        imageError={imageError}
-                        handleImageError={handleImageError}
-                        handleReadBookClick={handleReadBook}
-                        isFlipped={isFlipped[index]}
-                        toggleFlipped={() => toggleFlipped(index)}
-                        summaries={data.summaries[index]}
-                        contents={data.contents[index]}
-                    />
-                ))
-            }
-        </div>
-    );
+//             {isLoading ? 
+//                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+//                     <Spin size="large" />
+//                 </div>
+//             :       
+//                 data && data.titles.map((title, index) => (
+//                     <BookCard 
+//                         title={title} 
+//                         currentAuthor={data.authors[index]}
+//                         heading={data.headings[index]}
+//                         bookImagePath={`/bookimages/${data.authors[index]?.id}/${sanitizeTitleForFilename(title)}.png`}
+//                         authorImagePath={`/images/${data.authors[index]?.id}.png`}
+//                         imageError={imageError}
+//                         handleImageError={handleImageError}
+//                         handleReadBookClick={handleReadBook}
+//                         isFlipped={isFlipped[index]}
+//                         toggleFlipped={() => toggleFlipped(index)}
+//                         summaries={data.summaries[index]}
+//                         contents={data.contents[index]}
+//                     />
+//                 ))
+//             }
+//         </div>
+//     );
+// };
+
+// export default SemanticLibraryPage;
+
+
+
+
+
+
+
+
+return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <Title level={1}>What would you like to read?</Title>
+        <Text type="secondary">Search through 100s of books by semantic meaning. Then, delve deeper as you please!</Text>
+      </div>
+
+      <div className={styles.searchSection}>
+        <Select 
+            placeholder="Choose an author"
+            className={styles.select}
+            onChange={handleAuthorChange}
+            defaultValue={defaultAuthor}
+        >
+            {AUTHOR_INFO.map(author => (
+                <Option key={author.id} value={author.id}>{author.id}</Option>
+            ))}
+        </Select>
+        <Input.Search
+            placeholder="Type a topic or a query..."
+            enterButton={<Button type="primary"><SearchOutlined /></Button>}
+            size="large"
+            className={styles.searchInput}
+            onChange={handleSearchChange}
+            onSearch={handleSearchSubmit}
+        />
+      </div>
+
+      {isLoading ? 
+          <div className={styles.loading}>
+              <Spin size="large" />
+          </div>
+      :       
+          data && data.titles.map((title, index) => (
+              <BookCard 
+                  title={title} 
+                  currentAuthor={data.authors[index]}
+                  heading={data.headings[index]}
+                  bookImagePath={`/bookimages/${data.authors[index]?.id}/${sanitizeTitleForFilename(title)}.png`}
+                  authorImagePath={`/images/${data.authors[index]?.id}.png`}
+                  imageError={imageError}
+                  handleImageError={handleImageError}
+                  handleReadBookClick={handleReadBook}
+                  isFlipped={isFlipped[index]}
+                  toggleFlipped={() => toggleFlipped(index)}
+                  summaries={data.summaries[index]}
+                  contents={data.contents[index]}
+              />
+          ))
+      }
+
+    <VirtualBookShelfComponent />
+
+    </div>
+  );
 };
-
 export default SemanticLibraryPage;

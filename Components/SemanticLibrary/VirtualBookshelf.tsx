@@ -1,36 +1,138 @@
-// pages/virtualBookshelf.tsx
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
+// import { handleReadBookClick } from '../../utils/handleReadBookClick';
+// import styles from '../../styles/VirtualBookshelf.module.css';
 
-const VirtualBookShelf = () => {
+// const VirtualBookShelfComponent = () => {
+//   const [books, setBooks] = useState([]);
+
+//   useEffect(() => {
+//     fetch('/books.json')
+//       .then((response) => response.json())
+//       .then((data) => {
+//         const shuffledBooks = shuffleArray(data);
+//         setBooks(shuffledBooks);
+//       });
+//   }, []);
+
+//   return (
+//     <div className={styles.bookshelf}>
+//       {books.slice(0, 20).map((book, index) => {
+//         const pathParts = book.imagePath.split('/');
+//         const authorId = pathParts[pathParts.length - 2].split(' ').join('_');
+//         const title = pathParts[pathParts.length - 1].replace('.png', '').split(' ').join('_');
+//         return (
+//           <div key={index} className={styles.book}>
+//             <a href="#" onClick={() => handleReadBookClick(authorId, title)} className={styles.bookImage}>
+//               <img src={book.imagePath} alt={title} className={styles.image} />
+//             </a>
+//             <div className={styles.bookInfo}>
+//               <p className={styles.title}>{title.replace(/_/g, ' ')}</p>
+//               <p className={styles.author}>{authorId.replace(/_/g, ' ')}</p>
+//             </div>
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
+// function shuffleArray(array) {
+//   for (let i = array.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [array[i], array[j]] = [array[j], array[i]];
+//   }
+//   return array;
+// }
+
+// export default VirtualBookShelfComponent;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { handleReadBookClick } from '../../utils/handleReadBookClick';
+import styles from '../../styles/VirtualBookshelf.module.css';
+
+const VirtualBookShelfComponent = () => {
   const [books, setBooks] = useState([]);
+  const [displayedBooks, setDisplayedBooks] = useState([]);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const booksRef = useRef(null);
+
+  const loadMoreBooks = useCallback(() => {
+    if (loadingMore) return;
+    setLoadingMore(true);
+    setDisplayedBooks(books.slice(0, displayedBooks.length + 20));
+    setLoadingMore(false);
+  }, [displayedBooks, loadingMore, books]);
 
   useEffect(() => {
     fetch('/books.json')
       .then((response) => response.json())
-      .then((data) => setBooks(data));
+      .then((data) => {
+        const shuffledBooks = shuffleArray(data);
+        setBooks(shuffledBooks);
+        setDisplayedBooks(shuffledBooks.slice(0, 20));
+      });
   }, []);
 
-//   useEffect(() => {
-//     fetch('/api/books/getBooks')
-//       .then((response) => response.json())
-//       .then((data) => setBooks(data));
-//   }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      const bookShelf = booksRef.current;
+      if (bookShelf && bookShelf.getBoundingClientRect().bottom <= window.innerHeight) {
+        loadMoreBooks();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loadMoreBooks]);
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-      {books.map((book, index) => (
-        <div key={index} style={{ width: '15%', padding: '10px', display: 'inline-block' }}>
-          <div>
-            <img src={book.imagePath} alt={book.title} style={{ width: '100%', height: 'auto' }} />
-            <div style={{ textAlign: 'center', marginTop: '5px' }}>
-              <p>{book.title}</p>
-              <p>{book.author}</p>
+    <div ref={booksRef} className={styles.bookshelf}>
+      {displayedBooks.map((book, index) => {
+        const pathParts = book.imagePath.split('/');
+        const authorId = pathParts[pathParts.length - 2].split(' ').join('_');
+        const title = pathParts[pathParts.length - 1].replace('.png', '').split(' ').join('_');
+        return (
+          <div key={index} className={styles.book}>
+            <a href="#" onClick={() => handleReadBookClick(authorId, title)} className={styles.bookImage}>
+              <img src={book.imagePath} alt={title} className={styles.image} />
+            </a>
+            <div className={styles.bookInfo}>
+              <p className={styles.title}>{title.replace(/_/g, ' ')}</p>
+              <p className={styles.author}>{authorId.replace(/_/g, ' ')}</p>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
+      {loadingMore && <div className={styles.loadingMore}>Loading more books...</div>}
     </div>
   );
 };
 
-export default VirtualBookShelf;
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+export default VirtualBookShelfComponent;
