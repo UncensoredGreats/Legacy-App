@@ -1,73 +1,7 @@
-// import { useState, useEffect } from 'react';
-// import { handleReadBookClick } from '../../utils/handleReadBookClick';
-// import styles from '../../styles/VirtualBookshelf.module.css';
-
-// const VirtualBookShelfComponent = () => {
-//   const [books, setBooks] = useState([]);
-
-//   useEffect(() => {
-//     fetch('/books.json')
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const shuffledBooks = shuffleArray(data);
-//         setBooks(shuffledBooks);
-//       });
-//   }, []);
-
-//   return (
-//     <div className={styles.bookshelf}>
-//       {books.slice(0, 20).map((book, index) => {
-//         const pathParts = book.imagePath.split('/');
-//         const authorId = pathParts[pathParts.length - 2].split(' ').join('_');
-//         const title = pathParts[pathParts.length - 1].replace('.png', '').split(' ').join('_');
-//         return (
-//           <div key={index} className={styles.book}>
-//             <a href="#" onClick={() => handleReadBookClick(authorId, title)} className={styles.bookImage}>
-//               <img src={book.imagePath} alt={title} className={styles.image} />
-//             </a>
-//             <div className={styles.bookInfo}>
-//               <p className={styles.title}>{title.replace(/_/g, ' ')}</p>
-//               <p className={styles.author}>{authorId.replace(/_/g, ' ')}</p>
-//             </div>
-//           </div>
-//         );
-//       })}
-//     </div>
-//   );
-// };
-
-// function shuffleArray(array) {
-//   for (let i = array.length - 1; i > 0; i--) {
-//     const j = Math.floor(Math.random() * (i + 1));
-//     [array[i], array[j]] = [array[j], array[i]];
-//   }
-//   return array;
-// }
-
-// export default VirtualBookShelfComponent;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { handleReadBookClick } from '../../utils/handleReadBookClick';
 import styles from '../../styles/VirtualBookshelf.module.css';
+import Image from 'next/image';
 
 const VirtualBookShelfComponent = () => {
   const [books, setBooks] = useState([]);
@@ -113,7 +47,15 @@ const VirtualBookShelfComponent = () => {
         return (
           <div key={index} className={styles.book}>
             <a href="#" onClick={() => handleReadBookClick(authorId, title)} className={styles.bookImage}>
-              <img src={book.imagePath} alt={title} className={styles.image} />
+              {/* Next.js Migration Version */}
+              {/* <img src={book.imagePath} alt={title} className={styles.image} /> */} 
+              <Image
+                src={book.imagePath}
+                alt={title}
+                width={150}
+                height={150}
+                className={styles.image}
+              />
             </a>
             <div className={styles.bookInfo}>
               <p className={styles.title}>{title.replace(/_/g, ' ')}</p>
