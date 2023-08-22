@@ -37,6 +37,13 @@ const AUTHOR_INFO: Author[] = [
     "description": "Pioneering Visionary & Distinguished Polymath (1706-1790) | Trailblazer in the Discovery of Electricity & Foundational Contributor to the Birth of the United States | Illustrious Founder of the American Philosophical Association | Co-Author of the Declaration of Independence | A luminary who, despite his monumental achievements, once humbly professed, 'I may not be a man of unparalleled greatness, but I am, undeniably, a man of virtue and worth.'",
     },
     {
+    "id": "The Bible",
+    "category": ["Religion", "Faith", "Christianity", "Orthodoxy", "Islam", "Jesus", "God", "Judaism", "Mysticism", "Life"],
+    "cluster": "The_Bible",
+    "image": "The Bible.png",
+    "description": "The Entire King James Bible, Separated and Indexed by Verse.",
+    },
+    {
     "id": "Carl Jung",
     "category": ["Psychology", "Mysticism", "Philosophy", "Religion", "Spirituality", "Life", "Psyche", "Analytical Psychology", "Archetypes", "Individuation", "Symbolic Life", "Dreams"],
     "cap_first": "Carl",
