@@ -14,6 +14,10 @@ UncensoredGreats is an AI-powered platform focused on providing users with uncen
 
 For a comprehensive list of features in progress, as well as known issues currently being addressed, please refer to our [About Page](https://www.uncensoredgreats.com/about).
 
+![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/f5c90970-7d47-456d-b69a-da375ea23ddb)
+
+![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/efad6a2e-50d4-4fca-b77f-4fdb678e1bf2)
+
 ## Contribution
 
 While UncensoredGreats is a production-ready application, we always welcome the community's assistance in identifying bugs, suggesting improvements, and providing feedback. If you're interested in contributing:
