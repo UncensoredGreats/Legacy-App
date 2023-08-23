@@ -1,22 +1,23 @@
 # UncensoredGreats
-
-![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/a546a115-ecbc-40b9-ba75-e74ad27e0f38)
+![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/f5c90970-7d47-456d-b69a-da375ea23ddb)
 
 UncensoredGreats is an AI-powered platform focused on providing users with uncensored information sourced from thousands of classic books. We're dedicated to delivering AI based on primary sources that contrast with the prevalent viewpoints of Big Tech AI.
 
 ## Features
 
 - Search topics on the Semantic Library page to retrieve relevant text snippets from thousands of classic books.
+  ![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/a546a115-ecbc-40b9-ba75-e74ad27e0f38)
+  
 - Chat with classic authors based on their collected works on the Great's page.
+  ![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/df830593-abb6-490b-a5c5-ac4678f27dbc)
+
 - Access all posts on the Timeless Media page and view the original e-books from which they're sourced.
+![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/efad6a2e-50d4-4fca-b77f-4fdb678e1bf2)
 
 ... [You can add more about features you'd like to see here.]
 
 For a comprehensive list of features in progress, as well as known issues currently being addressed, please refer to our [About Page](https://www.uncensoredgreats.com/about).
 
-![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/f5c90970-7d47-456d-b69a-da375ea23ddb)
-
-![image](https://github.com/evanmcfarland/UncensoredGreatsCore/assets/62383100/efad6a2e-50d4-4fca-b77f-4fdb678e1bf2)
 
 ## Contribution
 
