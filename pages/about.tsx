@@ -169,7 +169,7 @@ const mainPanels = [
   { key: 'about-uncensoredgreats', title: 'About UncensoredGreats', content: { content: <Accordion panels={aboutUncensoredGreatsPanels} styled /> } },
   { key: 'dev-info', title: 'Reporting Bugs', content: { content: BugsList } },
   { key: 'feature-info', title: 'Upcoming Features', content: { content: FeatureList } },
-  { key: 'source-info', title: 'Author Source Details', content: { content: 'Coming very shortly, like within 24 hours.' } },
+  { key: 'source-info', title: 'Author Source Details', content: { content: 'Coming soon.' } },
 ];
 
 function AboutPage() {
