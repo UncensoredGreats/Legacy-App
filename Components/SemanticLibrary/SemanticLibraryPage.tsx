@@ -99,11 +99,6 @@ const SemanticLibraryPage = () => {
 
 return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <Title level={1}>What would you like to read?</Title>
-        <Text type="secondary">Search through 100s of books by semantic meaning. Then, delve deeper as you please!</Text>
-      </div>
-
       <div className={styles.searchSection}>
         <Select 
             placeholder="Choose an author"
@@ -116,7 +111,7 @@ return (
             ))}
         </Select>
         <Input.Search
-            placeholder="Type a topic or a query..."
+            placeholder="Search through 100s of books by semantic meaning..."
             enterButton={<Button type="primary"><SearchOutlined /></Button>}
             size="large"
             className={styles.searchInput}
@@ -149,7 +144,6 @@ return (
       }
 
     <VirtualBookShelfComponent />
-
     </div>
   );
 };
