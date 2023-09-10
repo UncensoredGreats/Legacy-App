@@ -278,18 +278,15 @@
 
 
 
-
+// New setup w/o hamburger menu. Still needs the wisdom tree and likes section. 
 
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, Modal, Icon} from 'semantic-ui-react';
+import { Button, Grid, Modal, Menu, Icon} from 'semantic-ui-react';
 import AuthModal, { getAuthState } from '../../app/authModal';
 import { createClient } from '@supabase/supabase-js'
 import { useSwipeable } from 'react-swipeable';
-
-import { Menu } from 'semantic-ui-react';
 import styles from '../../styles/header.module.css';
-
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -299,6 +296,7 @@ const supabase = createClient(
 const HeaderProp = () => {
   const router = useRouter();
   const [activeItem, setActiveItem] = useState(router.pathname);
+  const [visualActiveItem, setVisualActiveItem] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -352,8 +350,26 @@ const HeaderProp = () => {
     backgroundColor: 'linear-gradient(120deg, #f6f9fc, #eef5f8) !important',
   };
 
+  useEffect(() => {
+    const getVisualActiveItem = () => {
+      switch (router.pathname) {
+        case '/the-greats':
+          return 'Chat';
+        case '/timeless-media':
+          return 'Share';
+        case '/semantic-library':
+        default:
+          return 'Read';
+      }
+    };
+
+    setVisualActiveItem(getVisualActiveItem());
+  }, [router.pathname]);
+
   const handleItemClick = (name) => {
     setActiveItem(name);
+    setVisualActiveItem(name);
+
     switch(name) {
       case 'Chat':
         router.push('/the-greats');
@@ -412,48 +428,56 @@ const buttonStyle: React.CSSProperties = {
   color: '#333'
 };
 
-
-// // // Plain Semantic UI Menu: 
 //   return (
-//     <Menu fixed='top' inverted>
-//       <Menu.Item
-//         name='chat'
-//         onClick={() => handleItemClick('Chat')}
-//       >
-//         Chat
-//       </Menu.Item>
-//       <Menu.Item
-//         name='read'
-//         onClick={() => handleItemClick('Read')}
-//       >
-//         Read
-//       </Menu.Item>
-//       <Menu.Item
-//         name='share'
-//         onClick={() => handleItemClick('Share')}
-//       >
-//         Share
-//       </Menu.Item>
-//       <Menu.Menu position='right'>
+//     <div style={{display: 'flex', justifyContent: 'flex-end', paddingTop: '25px', paddingBottom: '10px' }}>
+//       <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+//         {/* left container content goes here, it's currently empty */}
+//       </div>
+//       <div style={{flex: 1, display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '20px', borderRadius: '25px', border: '1px solid #ddd'}}>
 //         <Menu.Item
-//           name='profile'
-//           onClick={handleLoginClick}
+//           name='chat'
+//           onClick={() => handleItemClick('Chat')}
+//           style={{ fontSize: '20px' }}
 //         >
-//           <Icon name={isAuthenticated ? 'sign-out' : 'sign-in'} />
-//           {isAuthenticated ? 'Sign Out' : 'Sign In'}
+//           Chat
 //         </Menu.Item>
-//       </Menu.Menu>
-//       <Modal 
-//           open={modalOpen} 
-//           onClose={() => setModalOpen(false)}
-//           size='tiny'
-//           header='Authentication'
+//         <Menu.Item
+//           name='read'
+//           onClick={() => handleItemClick('Read')}
+//           style={{ fontSize: '20px' }}
 //         >
-//           <div style={{padding: '20px'}}>
-//             <AuthModal />
-//           </div>
-//         </Modal>
-//     </Menu>
+//           Read
+//         </Menu.Item>
+//         <Menu.Item
+//           name='share'
+//           onClick={() => handleItemClick('Share')}
+//           style={{ fontSize: '20px' }}
+//         >
+//           Share
+//         </Menu.Item>
+//       </div>
+//       <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+//         <Menu.Menu style={{borderRadius: '50%', border: '1px solid #ddd', padding: '20px'}}>
+//           <Menu.Item
+//             name='profile'
+//             onClick={handleLoginClick}
+//             style={{ fontSize: '18px' }}
+//           >
+//             <Icon name={isAuthenticated ? 'sign-out' : 'sign-in'} size='large' />
+//           </Menu.Item>
+//         </Menu.Menu>
+//       </div>
+//       <Modal 
+//         open={modalOpen} 
+//         onClose={() => setModalOpen(false)}
+//         size='tiny'
+//         header='Authentication'
+//       >
+//         <div style={{padding: '20px', border: '1px solid #ddd'}}>
+//           <AuthModal />
+//         </div>
+//       </Modal>
+//     </div>
 //   );
 // };
 
@@ -461,115 +485,66 @@ const buttonStyle: React.CSSProperties = {
 
 
 
-// // Basic separated version
-
-// return (
-//   <div style={{display: 'flex', justifyContent: 'space-between', padding: '10px'}}>
-//     <div style={{flex: 1}}></div>
-//     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px', borderRadius: '25px', background: 'gray', flex: 2}}>
-//       <Menu.Item
-//         name='chat'
-//         onClick={() => handleItemClick('Chat')}
-//       >
-//         Chat
-//       </Menu.Item>
-//       <Menu.Item
-//         name='read'
-//         onClick={() => handleItemClick('Read')}
-//       >
-//         Read
-//       </Menu.Item>
-//       <Menu.Item
-//         name='share'
-//         onClick={() => handleItemClick('Share')}
-//       >
-//         Share
-//       </Menu.Item>
-//     </div>
-//     <div style={{borderRadius: '50%', background: 'gray', flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
-//       <Menu.Menu>
-//         <Menu.Item
-//           name='profile'
-//           onClick={handleLoginClick}
-//         >
-//           <Icon name={isAuthenticated ? 'sign-out' : 'sign-in'} />
-//           {isAuthenticated ? 'Sign Out' : 'Sign In'}
-//         </Menu.Item>
-//       </Menu.Menu>
-//     </div>
-//     <Modal 
-//       open={modalOpen} 
-//       onClose={() => setModalOpen(false)}
-//       size='tiny'
-//       header='Authentication'
-//     >
-//       <div style={{padding: '20px'}}>
-//         <AuthModal />
-//       </div>
-//     </Modal>
-//   </div>
-// );
-
-// };
-
-// export default HeaderProp;
 
 
 
 
 
 
-  return (
-    <div style={{display: 'flex', justifyContent: 'flex-end', paddingTop: '25px', paddingBottom: '10px' }}>
-      <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        {/* left container content goes here, it's currently empty */}
-      </div>
-      <div style={{flex: 1, display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '10px', borderRadius: '25px', border: '1px solid #ddd'}}>
-        <Menu.Item
-          name='chat'
-          onClick={() => handleItemClick('Chat')}
-        >
-          <Icon name='chat' />
-          Chat
-        </Menu.Item>
-        <Menu.Item
-          name='read'
-          onClick={() => handleItemClick('Read')}
-        >
-          <Icon name='book' />
-          Read
-        </Menu.Item>
-        <Menu.Item
-          name='share'
-          onClick={() => handleItemClick('Share')}
-        >
-          <Icon name='share' />
-          Share
-        </Menu.Item>
-      </div>
-      <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <Menu.Menu style={{borderRadius: '50%', border: '1px solid #ddd', padding: '10px'}}>
-          <Menu.Item
-            name='profile'
-            onClick={handleLoginClick}
-          >
-            <Icon name={isAuthenticated ? 'sign-out' : 'sign-in'} />
-            {isAuthenticated ? 'Sign Out' : 'Sign In'}
-          </Menu.Item>
-        </Menu.Menu>
-      </div>
-      <Modal 
-        open={modalOpen} 
-        onClose={() => setModalOpen(false)}
-        size='tiny'
-        header='Authentication'
-      >
-        <div style={{padding: '20px', border: '1px solid #ddd'}}>
-          <AuthModal />
-        </div>
-      </Modal>
+
+return (
+  <div style={{display: 'flex', justifyContent: 'flex-end', paddingTop: '25px', paddingBottom: '10px', borderRadius: '10px'}}>
+    <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      {/* left container content goes here, it's currently empty */}
     </div>
-  );
+    <div style={{flex: 2, display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '0px', borderRadius: '25px', border: '1px solid #ddd', background: 'white', position: 'relative'}}>
+      <div style={{position: 'absolute', bottom: '10px', height: '2px', width: '33%', background: '#333', borderRadius: '0 0 10px 10px', transition: '0.3s', left: visualActiveItem === 'Chat' ? '10px' : visualActiveItem === 'Read' ? '33%' : '66%'}}></div>
+      <Menu.Item
+        name='chat'
+        onClick={() => handleItemClick('Chat')}
+        style={{ fontSize: '20px', flex: 1, textAlign: 'center', padding: '10px', borderRadius: '10px 10px 0 0' }}
+      >
+        Chat
+      </Menu.Item>
+      <Menu.Item
+        name='read'
+        onClick={() => handleItemClick('Read')}
+        style={{ fontSize: '20px', flex: 1, textAlign: 'center', padding: '10px', borderRadius: '10px 10px 0 0' }}
+      >
+        Read
+      </Menu.Item>
+      <Menu.Item
+        name='share'
+        onClick={() => handleItemClick('Share')}
+        style={{ fontSize: '20px', flex: 1, textAlign: 'center', padding: '10px', borderRadius: '10px 10px 0 0' }}
+      >
+        Share
+      </Menu.Item>
+    </div>
+    <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <Menu.Menu style={{borderRadius: '50%', border: '1px solid #ddd', padding: '20px', background: 'white'}}>
+        <Menu.Item
+          name='profile'
+          onClick={handleLoginClick}
+          style={{ fontSize: '18px' }}
+        >
+          <Icon name={isAuthenticated ? 'sign-out' : 'sign-in'} size='large' />
+        </Menu.Item>
+      </Menu.Menu>
+    </div>
+    <Modal 
+      open={modalOpen} 
+      onClose={() => setModalOpen(false)}
+      size='tiny'
+      header='Authentication'
+    >
+      <div style={{padding: '20px', border: '1px solid #ddd', borderRadius: '10px', background: 'white'}}>
+        <AuthModal />
+      </div>
+    </Modal>
+  </div>
+);
+
 };
 
 export default HeaderProp;
