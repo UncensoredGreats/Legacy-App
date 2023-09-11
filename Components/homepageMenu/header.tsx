@@ -288,7 +288,7 @@ import { createClient } from '@supabase/supabase-js'
 import { useSwipeable } from 'react-swipeable';
 import styles from '../../styles/header.module.css';
 
-import Tabs from './headerParts/tabs';
+import Tabs from './headerParts/Tabs';
 import ProfileIcon from './headerParts/ProfileIcon';
 
 const supabase = createClient(
