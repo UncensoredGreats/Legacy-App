@@ -21,7 +21,7 @@ export default function Layout({ children }) {
         left: 0,
         width: '100%',
         height: '100%',
-        opacity: '0.7',
+        opacity: '0.4',
         zIndex: -1,
       }}/>
       <div style={{paddingLeft: '0px'}}>
