@@ -11,8 +11,8 @@ export default function Layout({ children }) {
     }}>
       <HeaderProp />
       <div id="imageContainer" style={{
-        // backgroundImage: `url('/images/WhiteOut.png')`,
-        backgroundImage: `url('/images/BlackedOut.png')`,
+        backgroundImage: `url('/images/WhiteOut.png')`,
+        // backgroundImage: `url('/images/BlackedOut.png')`,
         backgroundPosition: backgroundPosition,
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',
@@ -21,7 +21,7 @@ export default function Layout({ children }) {
         left: 0,
         width: '100%',
         height: '100%',
-        opacity: '0.4',
+        opacity: '0.3',
         zIndex: -1,
       }}/>
       <div style={{paddingLeft: '0px'}}>

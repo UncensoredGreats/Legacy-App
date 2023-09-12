@@ -282,14 +282,10 @@
 
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, Modal, Menu, Icon} from 'semantic-ui-react';
-import AuthModal, { getAuthState } from '../../app/authModal';
 import { createClient } from '@supabase/supabase-js'
-import { useSwipeable } from 'react-swipeable';
-import styles from '../../styles/header.module.css';
 
 import Tabs from './headerParts/Tabs';
-import ProfileIcon from './headerParts/ProfileIcon';
+import HamburgerMenu from './headerParts/HamburgerMenu';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -297,157 +293,11 @@ const supabase = createClient(
 )
 
 const HeaderProp = () => {
-  const router = useRouter();
-  const [activeItem, setActiveItem] = useState(router.pathname);
-  const [visualActiveItem, setVisualActiveItem] = useState('');
-  const [modalOpen, setModalOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(0);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(session ? true : false);
-    });
-    setIsAuthenticated(getAuthState() ? true : false);
-  }, []);
-
-  useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        setModalOpen(false);
-        setIsAuthenticated(true);
-      } else if (event === 'SIGNED_OUT') {
-        setIsAuthenticated(false);
-      }
-    });
-  }, []);  
-
-  const handleLoginClick = () => {
-    if (isAuthenticated) {
-      supabase.auth.signOut().then(() => {
-        setIsAuthenticated(false);
-        setModalOpen(false);
-      });
-    } else {
-      setModalOpen(true);
-    }
-  };
-
-  const handleUserMenuClick = (name) => {
-    switch(name) {
-      case 'Wisdom Tree':
-        router.push('/wisdom-tree');
-        break;
-      case 'Bookmarked':
-        router.push('/bookmarked');
-        break;
-    }
-  };
-
-  const headerStyle = {
-    padding: '20px 20px', 
-    height: 'auto',
-  };
-  
-  const headerbarStyle = {
-    backgroundColor: 'linear-gradient(120deg, #f6f9fc, #eef5f8) !important',
-  };
-
-  useEffect(() => {
-    const getVisualActiveItem = () => {
-      switch (router.pathname) {
-        case '/the-greats':
-          return 'Chat';
-        case '/timeless-media':
-          return 'Share';
-        case '/semantic-library':
-        default:
-          return 'Read';
-      }
-    };
-
-    setVisualActiveItem(getVisualActiveItem());
-  }, [router.pathname]);
-
-  const handleItemClick = (name) => {
-    setActiveItem(name);
-    setVisualActiveItem(name);
-
-    switch(name) {
-      case 'Chat':
-        router.push('/the-greats');
-        break;
-      case 'Share':
-        router.push('/timeless-media');
-        break;
-      case 'Read':
-        router.push('/semantic-library');
-        break;
-      case 'About':
-        router.push('/about');
-        break;
-    }
-  };
-
-const [menuOpen, setMenuOpen] = useState(false);
-
-useEffect(() => {
-  const handleClickOutside = (e) => {
-    if (menuOpen && e.target.closest('.menu') === null && !e.target.classList.contains('icon')) {
-      setMenuOpen(false);
-    }
-  };
-  if (menuOpen) {
-    document.addEventListener('click', handleClickOutside);
-  }
-  return () => {
-    document.removeEventListener('click', handleClickOutside);
-  };
-}, [menuOpen]);
-
-const handlers = useSwipeable({
-  onSwipedRight: () => setMenuOpen(false),
-  onSwipedLeft: () => setMenuOpen(true),
-  trackMouse: true
-});
-
-
-const menuStyle: React.CSSProperties = {
-  position: 'fixed',
-  top: '0',
-  left: menuOpen ? '0px' : '-250px',
-  width: '250px',
-  height: '100%',
-  background: '#436B78',
-  color: '#fff',
-  transition: 'left 0.3s',
-  padding: '20px',
-  zIndex: 1000,
-};
-
-const buttonStyle: React.CSSProperties = {
-  marginBottom: '15px',
-  backgroundColor: '#FFF8E1', 
-  color: '#333'
-};
 
   return (
     <div style={{display: 'flex', justifyContent: 'flex-end', paddingTop: '25px', paddingBottom: '10px' }}>
-        <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            {/* left container content goes here, it's currently empty */}
-        </div>
         <Tabs />
-        <ProfileIcon isAuthenticated={isAuthenticated} handleLoginClick={handleLoginClick} />
-        <Modal 
-            open={modalOpen} 
-            onClose={() => setModalOpen(false)}
-            size='tiny'
-            header='Authentication'
-        >
-            <div style={{padding: '20px', border: '1px solid #ddd'}}>
-                <AuthModal />
-            </div>
-        </Modal>
+        <HamburgerMenu />
     </div>
   );
 };

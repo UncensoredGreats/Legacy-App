@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 import { useSwipeable } from 'react-swipeable';
+import styled from 'styled-components';
 
 const Tabs = () => {
     const router = useRouter();
@@ -77,7 +78,22 @@ const Tabs = () => {
         }
     });
 
+    const Container = styled.div`
+        width: 75%;
+        margin: 0 auto;
+        /* other styles */
+
+        @media (min-width: 768px) {
+            width: 60%;
+        }
+
+        @media (min-width: 1024px) {
+            width: 50%;
+        }
+    `;
+
     return (
+        <Container>
         <div style={{
             flex: 2,
             display: 'flex',
@@ -88,8 +104,8 @@ const Tabs = () => {
             border: '1px solid #ddd',
             background: 'white',
             position: 'relative',
-            // boxShadow: '0 0 3px rgba(0, 0, 0, .1), 0 0 6px rgba(0, 0, 0, .1), 0 0 9px rgba(0, 0, 0, .1), 0 0 12px rgba(0, 0, 0, .1), 0 0 15px rgba(0, 0, 0, .1)',
-            boxShadow: '0 0 3px rgba(255, 255, 255, .1), 0 0 6px rgba(255, 255, 255, .1), 0 0 9px rgba(255, 255, 255, .1), 0 0 12px rgba(255, 255, 255, .1), 0 0 15px rgba(255, 255, 255, .1)',
+            boxShadow: '0 0 3px rgba(0, 0, 0, .1), 0 0 6px rgba(0, 0, 0, .1), 0 0 9px rgba(0, 0, 0, .1), 0 0 12px rgba(0, 0, 0, .1), 0 0 15px rgba(0, 0, 0, .1)',
+            // boxShadow: '0 0 3px rgba(255, 255, 255, .1), 0 0 6px rgba(255, 255, 255, .1), 0 0 9px rgba(255, 255, 255, .1), 0 0 12px rgba(255, 255, 255, .1), 0 0 15px rgba(255, 255, 255, .1)',
             backgroundImage: 'linear-gradient(45deg, #7f00ff, #483d8b, #4682b4, #20b2aa, #a3be8c, #d08770)',
         }}>    
             <div style={{
@@ -148,6 +164,7 @@ const Tabs = () => {
                 }}
             />
         </div>
+        </Container>
     );        
 };
 
