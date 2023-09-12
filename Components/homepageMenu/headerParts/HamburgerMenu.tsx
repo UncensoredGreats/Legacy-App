@@ -1,38 +1,9 @@
-// // OG yer. 
-
-// import React from 'react';
-// import { Menu, Icon } from 'semantic-ui-react';
-
-// const ProfileIcon = ({ isAuthenticated, handleLoginClick }) => {
-//     return (
-//         <div style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-//             <Menu.Menu style={{borderRadius: '50%', border: '1px solid #ddd', padding: '20px'}}>
-//                 <Menu.Item
-//                     name='profile'
-//                     onClick={handleLoginClick}
-//                     style={{ fontSize: '18px' }}
-//                 >
-//                     <Icon name={isAuthenticated ? 'sign-out' : 'sign-in'} size='large' />
-//                 </Menu.Item>
-//             </Menu.Menu>
-//         </div>
-//     );
-// };
-
-// export default ProfileIcon;
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import { Button, Icon, Modal, Grid } from 'semantic-ui-react';
 import AuthModal, { getAuthState } from '../../../app/authModal';
 import { useRouter } from 'next/router';
 import { createClient } from '@supabase/supabase-js';
 import { useSwipeable } from 'react-swipeable';
-import styles from '../../styles/header.module.css';
-
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -83,16 +54,6 @@ const HamburgerMenu = () => {
         router.push('/bookmarked');
         break;
     }
-  };
-
-
-  const headerStyle = {
-    padding: '20px 20px', 
-    height: 'auto',
-  };
-  
-  const headerbarStyle = {
-    backgroundColor: 'linear-gradient(120deg, #f6f9fc, #eef5f8) !important',
   };
 
   const handleItemClick = (name) => {
@@ -269,7 +230,6 @@ return (
           </div>
         </div>
 
-        {/* Existing Auth Modal */}
         <Modal 
           open={modalOpen} 
           onClose={() => setModalOpen(false)}
@@ -293,5 +253,5 @@ return (
   </Grid>
   );
 };
-export default HamburgerMenu;
 
+export default HamburgerMenu;
