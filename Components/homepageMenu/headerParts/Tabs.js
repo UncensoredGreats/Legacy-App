@@ -110,13 +110,15 @@ const Tabs = () => {
         }}>    
             <div style={{
                 position: 'absolute',
-                bottom: '10px',
-                height: '2px',
+                bottom: '-7px',
+                height: '7px',
                 width: '33%',
-                background: '#333',
+                border: '1px solid white',
+                background: 'grey',
                 borderRadius: '0 0 10px 10px',
                 transition: '0.3s',
-                left: visualActiveItem === 'Chat' ? '10px' : visualActiveItem === 'Read' ? '33%' : '66%'
+                left: visualActiveItem === 'Chat' ? '15px' : 
+                visualActiveItem === 'Read' ? '34%' : '64.5%'
             }}></div>
             <Menu.Item
                 name='Chat'
