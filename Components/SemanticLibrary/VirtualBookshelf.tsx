@@ -78,3 +78,4 @@ function shuffleArray(array) {
 }
 
 export default VirtualBookShelfComponent;
+

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { Card, Image, Button, Label, Form, TextArea } from 'semantic-ui-react';
+import { Card, Image, Button } from 'semantic-ui-react';
 import styles from '../../styles/Home.module.css';
 import useStreamingText from './Stream';
 import { useCardState } from '../../contexts/CardStateContext';

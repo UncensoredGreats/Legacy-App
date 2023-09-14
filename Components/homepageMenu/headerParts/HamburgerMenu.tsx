@@ -230,7 +230,7 @@ return (
           </div>
         </div>
 
-        <Modal 
+        {/* <Modal 
           open={modalOpen} 
           onClose={() => setModalOpen(false)}
           size='tiny'
@@ -239,7 +239,20 @@ return (
           <div style={{padding: '20px'}}>
             <AuthModal />
           </div>
+        </Modal> */}
+        <Modal 
+          open={modalOpen} 
+          onClose={() => setModalOpen(false)}
+          size='tiny'
+        >
+          <Modal.Header>Please Sign In</Modal.Header>
+          <Modal.Content>
+            <div style={{padding: '20px'}}>
+              <AuthModal />
+            </div>
+          </Modal.Content>
         </Modal>
+
         <div {...handlers} style={{
             position: 'fixed',
             top: 0,
