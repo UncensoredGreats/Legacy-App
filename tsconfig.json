@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "Components/homepageMenu/Tabs.js"  ],
+, "Components/homepageMenu/Tabs.js", "Components/homepageMenu/headerParts/Tabs.js"  ],
   "exclude": [
     "node_modules"
   ]
