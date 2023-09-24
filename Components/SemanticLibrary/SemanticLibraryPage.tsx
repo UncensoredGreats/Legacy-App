@@ -4,7 +4,6 @@ import { Select, Input, Button, Spin, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { handleReadBookClick } from '../../utils/handleReadBookClick';
 import AUTHOR_INFO from '../../data/author_data';
-import VirtualBookShelfComponent from './VirtualBookshelf';
 import BookCard from './BookCard';
 import styles from '../../styles/SemanticLibraryPage.module.css';
 
@@ -142,8 +141,6 @@ return (
               />
           ))
       }
-
-    <VirtualBookShelfComponent />
     </div>
   );
 };

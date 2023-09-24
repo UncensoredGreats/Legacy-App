@@ -1,3 +1,4 @@
+
 .grid {
     display: grid;
     /* grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); */
@@ -6,6 +7,12 @@
     padding: 2em;
   }
 
+/* .virtualBookshelfRow {
+  grid-column: 1 / -1;  
+  display: flex;
+  min-width: 500px;
+} */
+  /* Span from the first to the last grid column */
 
 @media only screen and (min-width: 200px) {
   .grid {
@@ -73,8 +80,8 @@
 
 .cardBack {
   transform: rotateY(180deg);
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
   padding: 10px; 
   display: flex;
   flex-direction: column;
@@ -84,3 +91,8 @@
 .cardBack::-webkit-scrollbar {
   display: none;
 }
+
+
+
+
+
