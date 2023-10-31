@@ -12,6 +12,7 @@
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -123,6 +124,8 @@
 
 
 
+=======
+>>>>>>> e7b8db8789016c41976945538ddd9423b2f8f9f7
 import { useState, useEffect } from 'react';
 import Layout from '../Components/homepageMenu/Layout';
 import SemanticLibrarySearch from '../Components/SemanticLibrary/SemanticLibraryPage';
