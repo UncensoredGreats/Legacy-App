@@ -1,0 +1,1298 @@
+diff --git a/Components/SemanticLibrary/SemanticLibraryPage.tsx b/Components/SemanticLibrary/SemanticLibraryPage.tsx
+index 2a1b180..398d03a 100644
+--- a/Components/SemanticLibrary/SemanticLibraryPage.tsx
++++ b/Components/SemanticLibrary/SemanticLibraryPage.tsx
+@@ -4,6 +4,7 @@ import { Select, Input, Button, Spin, Typography } from 'antd';
+ import { SearchOutlined } from '@ant-design/icons';
+ import { handleReadBookClick } from '../../utils/handleReadBookClick';
+ import AUTHOR_INFO from '../../data/author_data';
++import VirtualBookShelfComponent from './VirtualBookshelf';
+ import BookCard from './BookCard';
+ import styles from '../../styles/SemanticLibraryPage.module.css';
+ 
+@@ -141,6 +142,8 @@ return (
+               />
+           ))
+       }
++
++    <VirtualBookShelfComponent />
+     </div>
+   );
+ };
+diff --git a/Components/SemanticLibrary/VirtualBookshelf.tsx b/Components/SemanticLibrary/VirtualBookshelf.tsx
+index d963daa..11712d2 100644
+--- a/Components/SemanticLibrary/VirtualBookshelf.tsx
++++ b/Components/SemanticLibrary/VirtualBookshelf.tsx
+@@ -1,195 +1,3 @@
+-// // Semantic UI version w/o shuffled books.
+-
+-// import { useState, useEffect } from 'react';
+-// import { handleReadBookClick } from '../../utils/handleReadBookClick';
+-// import { Card, Image, Segment } from 'semantic-ui-react';
+-// import styles from '../../styles/VirtualBookshelf.module.css';
+-
+-// interface Book {
+-//   author: string;
+-//   title: string;
+-//   imagePath: string;
+-// }
+-
+-// const VirtualBookShelfComponent = ({ author }) => {
+-//   const [groupedBooks, setGroupedBooks] = useState<{ [author: string]: Book[] }>({});
+-//   const booksByThisAuthor = groupedBooks[author] || [];
+-
+-//   useEffect(() => {
+-//     fetch('/books.json')
+-//       .then((response) => response.json())
+-//       .then((data: Book[]) => {
+-      
+-//         const authorGroups: { [author: string]: Book[] } = {};
+-//         data.forEach((book) => {
+-//           if (!authorGroups[book.author]) {
+-//             authorGroups[book.author] = [];
+-//           }
+-//           authorGroups[book.author].push(book);
+-//         });
+-//         setGroupedBooks(authorGroups);
+-//       });
+-//   }, []);
+-
+-//   return (
+-//     <div className={styles["✍️"]}>
+-//       <div className={styles["🌐🌈"]}>
+-//         <Segment
+-//           className={`${styles["🌟"]} ${styles["📜"]} ${styles["🕵️‍♀️📜"]}`}
+-//           style={{ display: 'flex', overflowX: 'auto' }}
+-//         >
+-//           {booksByThisAuthor.map((book, bookIndex) => (
+-//             <div className={styles["👤🎴-container"]} key={bookIndex}>
+-//               <Card 
+-//                 className={`${styles["👤🎴"]} ${styles["👤🎴-custom"]}`} 
+-//                 onClick={() => handleReadBookClick(book.author, book.title)}
+-//               >
+-//                 <div className={styles["🖼️🌌"]}>
+-//                   <Image
+-//                     src={book.imagePath}
+-//                     alt={book.title}
+-//                     className={styles["👩‍🎨📷"]}
+-//                   />
+-//                 </div>
+-//                 <Card.Content className={styles["👤🎴-header"]}>
+-//                     {book.title}
+-//                 </Card.Content>
+-//               </Card>
+-//             </div>
+-//           ))}
+-//         </Segment>
+-//       </div>
+-//     </div>
+-//   );
+-// };
+-
+-// export default VirtualBookShelfComponent;
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-// // Semantic UI finished version with shuffled books.
+-// import { useState, useEffect, useRef, useCallback } from 'react';
+-// import { handleReadBookClick } from '../../utils/handleReadBookClick';
+-// import { Card, Image, Segment } from 'semantic-ui-react';
+-
+-// interface Book {
+-//   author: string;
+-//   title: string;
+-//   imagePath: string;
+-// }
+-
+-// const VirtualBookShelfComponent = () => {
+-//   const [books, setBooks] = useState<Book[]>([]);
+-//   const [groupedBooks, setGroupedBooks] = useState<{ [author: string]: Book[] }>({});
+-//   const [displayedBooks, setDisplayedBooks] = useState([]);
+-//   const [loadingMore, setLoadingMore] = useState(false);
+-//   const booksRef = useRef(null);
+-
+-//   const loadMoreBooks = useCallback(() => {
+-//     if (loadingMore) return;
+-//     setLoadingMore(true);
+-//     setDisplayedBooks(books.slice(0, displayedBooks.length + 20));
+-//     setLoadingMore(false);
+-//   }, [displayedBooks, loadingMore, books]);
+-
+-//   useEffect(() => {
+-//     fetch('/books.json')
+-//       .then((response) => response.json())
+-//       .then((data) => {
+-//         const shuffledBooks = shuffleArray(data);
+-//         setBooks(shuffledBooks);
+-//         setDisplayedBooks(shuffledBooks.slice(0, 20));
+-//       });
+-//   }, []);
+-
+-//   useEffect(() => {
+-//     fetch('/books.json')
+-//       .then((response) => response.json())
+-//       .then((data: Book[]) => {
+-//         const shuffledBooks = shuffleArray(data);
+-//         setBooks(shuffledBooks);
+-
+-//         const authorGroups: { [author: string]: Book[] } = {};
+-//         shuffledBooks.forEach((book) => {
+-//           if (!authorGroups[book.author]) {
+-//             authorGroups[book.author] = [];
+-//           }
+-//           authorGroups[book.author].push(book);
+-//         });
+-//         setGroupedBooks(authorGroups);
+-//       });
+-//   }, []);
+-
+-//   return (
+-//     <div className="✍️">
+-//       <div className="🌐🌈">
+-//         {Object.keys(groupedBooks).map((author, index) => (
+-//           <Segment
+-//             className="🌟 📜 🕵️‍♀️📜"
+-//             style={{ display: 'flex', overflowX: 'auto' }}
+-//             key={index}
+-//           >
+-//             {groupedBooks[author].map((book, bookIndex) => (
+-//               <div className="👤🎴-container" key={bookIndex}>
+-//                 <Card className={`👤🎴 👤🎴-custom`} onClick={() => handleReadBookClick(book.author, book.title)}>
+-//                   <div className="🖼️🌌">
+-//                     <Image
+-//                       src={book.imagePath}
+-//                       alt={book.title}
+-//                       className="👩‍🎨📷"
+-//                     />
+-//                   </div>
+-//                   <Card.Content className="👤🎴-header">
+-//                     {/* <Card.Header className="👤🎴-header"> */}
+-//                       {book.title}
+-//                     {/* </Card.Header> */}
+-//                   </Card.Content>
+-//                 </Card>
+-//               </div>
+-//             ))}
+-//           </Segment>
+-//         ))}
+-//       </div>
+-//     </div>
+-//   );
+-// };
+-
+-// function shuffleArray(array) {
+-//   for (let i = array.length - 1; i > 0; i--) {
+-//     const j = Math.floor(Math.random() * (i + 1));
+-//     [array[i], array[j]] = [array[j], array[i]];
+-//   }
+-//   return array;
+-// }
+-
+-// export default VirtualBookShelfComponent;
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-// OG
+-
+ import { useState, useEffect, useRef, useCallback } from 'react';
+ import { handleReadBookClick } from '../../utils/handleReadBookClick';
+ import styles from '../../styles/VirtualBookshelf.module.css';
+diff --git a/Components/homepage/AuthorCard.tsx b/Components/homepage/AuthorCard.tsx
+index 301dda9..7cdde78 100644
+--- a/Components/homepage/AuthorCard.tsx
++++ b/Components/homepage/AuthorCard.tsx
+@@ -1,29 +1,65 @@
+-// // AuthorCard.tsx
+-
+-import React from 'react';
+-import { Card, Image } from 'semantic-ui-react';
++import { useRouter } from 'next/router';
++import React, { useEffect } from 'react';
++import { Card, Image, Button } from 'semantic-ui-react';
+ import styles from '../../styles/Home.module.css';
+ import useStreamingText from './Stream';
+ import { useCardState } from '../../contexts/CardStateContext';
+-import VirtualBookShelfComponent from '../SemanticLibrary/VirtualBookshelf';
++import { useActiveChat } from '../../contexts/ActiveChatContext';
+ 
+-const AuthorCard = ({ author, expanded }) => {
+-  const { cardState, flipCard } = useCardState(author.id);
++const AuthorCard = ({ author }) => {
++  const { cardState, flipCard, startChat, stopChat } = useCardState(author.id);
++  const { activeChat, setActiveChat } = useActiveChat();
+   const streamedDescription = useStreamingText(author.description, 15, cardState.startStreaming || false);
++  const router = useRouter();
++
++  useEffect(() => {
++    console.log('chatMode: ', cardState.chatMode);
++  }, [cardState.chatMode]);
++
++  // Added to reset activechat to null when the user navigates home: 
++  useEffect(() => {
++    if (router.pathname === '/' || router.pathname === '/the-greats') {
++        setActiveChat(null);
++    }
++  }, [router.pathname]);
+ 
+   const handleClick = () => {
+     flipCard();
+   };
+ 
+-  return (
+-    <div>
+-      {/* Existing Author Card */}
++  const handleChatClick = (e: React.MouseEvent) => {
++    e.preventDefault();
++    console.log('Chat Clicked');
++    if (!cardState.chatMode) {
++      startChat();
++      setActiveChat(author.id);
++      router.push(`/chat/${author.id}`);
++    } else {
++      stopChat();
++      setActiveChat(null);
++      router.push('/');
++    }
++  };
++
++  const handleReadClick = (e: React.MouseEvent) => {
++    e.preventDefault();
++    e.stopPropagation();
++  };
++
++
++    return (
+       <div onClick={handleClick} className={`${styles.cardContainer} ${cardState.isFlipped ? styles.cardFlipped : ''}`}>
+         {cardState.isFlipped ? (
+           <Card className={styles.cardBack} raised>
+             <Card.Content textAlign='center' style={{ minHeight: "210px", maxHeight: "210px", overflowY: "auto" }}>
+               <Card.Description>{streamedDescription}</Card.Description>
+             </Card.Content>
++            <Card.Content textAlign='center'style={{ maxHeight: "50px", minHeight: "50px" }}> 
++              <div className='tiny ui two buttons' onClick={(e) => e.stopPropagation()}>
++                <Button color='blue' onClick={handleChatClick}>Chat</Button>
++                {/* <Button color='olive'>Read</Button> */}
++              </div>
++            </Card.Content>
+           </Card>
+         ) : (
+           <Card className={styles.cardFront} raised>
+@@ -36,239 +72,8 @@ const AuthorCard = ({ author, expanded }) => {
+           </Card>
+         )}
+       </div>
+-      {expanded && (
+-        <VirtualBookShelfComponent author={author.id} />
+-      )}
+-    </div>
+-  );
+-};
+-
+-export default AuthorCard;
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-// // OG with content removed, before integratign virtualbookshelf.
+-
+-// import React from 'react';
+-// import { Card, Image } from 'semantic-ui-react';
+-// import styles from '../../styles/Home.module.css';
+-// import useStreamingText from './Stream';
+-// import { useCardState } from '../../contexts/CardStateContext';
+-
+-// const AuthorCard = ({ author }) => {
+-//   const { cardState, flipCard } = useCardState(author.id);
+-//   const streamedDescription = useStreamingText(author.description, 15, cardState.startStreaming || false);
+-
+-//   const handleClick = () => {
+-//     flipCard();
+-//   };
+-
+-//   return (
+-//     <div onClick={handleClick} className={`${styles.cardContainer} ${cardState.isFlipped ? styles.cardFlipped : ''}`}>
+-//       {cardState.isFlipped ? (
+-//         <Card className={styles.cardBack} raised>
+-//           <Card.Content textAlign='center' style={{ minHeight: "210px", maxHeight: "210px", overflowY: "auto" }}>
+-//             <Card.Description>{streamedDescription}</Card.Description>
+-//           </Card.Content>
+-//         </Card>
+-//       ) : (
+-//         <Card className={styles.cardFront} raised>
+-//           <div>
+-//             <Image src={`/images/${author.id}.png`} className={styles.cardImage} />
+-//           </div>
+-//           <Card.Content textAlign='center'>
+-//             <Card.Content style={{ fontSize: '16px', fontWeight: 'bold'}}>{`${author.id}`}</Card.Content>
+-//           </Card.Content>
+-//         </Card>
+-//       )}
+-//     </div>
+-//   );
+-// };
+-
+-
+-// export default AuthorCard;
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-// // OG Before removing buttons/container and experimenting with book listing on card back.
+-
+-// import { useRouter } from 'next/router';
+-// import React, { useEffect } from 'react';
+-// import { Card, Image, Button } from 'semantic-ui-react';
+-// import styles from '../../styles/Home.module.css';
+-// import useStreamingText from './Stream';
+-// import { useCardState } from '../../contexts/CardStateContext';
+-// import { useActiveChat } from '../../contexts/ActiveChatContext';
+-
+-// const AuthorCard = ({ author }) => {
+-//   const { cardState, flipCard, startChat, stopChat } = useCardState(author.id);
+-//   const { activeChat, setActiveChat } = useActiveChat();
+-//   const streamedDescription = useStreamingText(author.description, 15, cardState.startStreaming || false);
+-//   const router = useRouter();
+-
+-//   useEffect(() => {
+-//     console.log('chatMode: ', cardState.chatMode);
+-//   }, [cardState.chatMode]);
+-
+-//   // Added to reset activechat to null when the user navigates home: 
+-//   useEffect(() => {
+-//     if (router.pathname === '/' || router.pathname === '/the-greats') {
+-//         setActiveChat(null);
+-//     }
+-//   }, [router.pathname]);
+-
+-//   const handleClick = () => {
+-//     flipCard();
+-//   };
+-
+-//   const handleChatClick = (e: React.MouseEvent) => {
+-//     e.preventDefault();
+-//     console.log('Chat Clicked');
+-//     if (!cardState.chatMode) {
+-//       startChat();
+-//       setActiveChat(author.id);
+-//       router.push(`/chat/${author.id}`);
+-//     } else {
+-//       stopChat();
+-//       setActiveChat(null);
+-//       router.push('/');
+-//     }
+-//   };
+-
+-//   const handleReadClick = (e: React.MouseEvent) => {
+-//     e.preventDefault();
+-//     e.stopPropagation();
+-//   };
+-
+-
+-//     return (
+-//       <div onClick={handleClick} className={`${styles.cardContainer} ${cardState.isFlipped ? styles.cardFlipped : ''}`}>
+-//         {cardState.isFlipped ? (
+-//           <Card className={styles.cardBack} raised>
+-//             <Card.Content textAlign='center' style={{ minHeight: "210px", maxHeight: "210px", overflowY: "auto" }}>
+-//               <Card.Description>{streamedDescription}</Card.Description>
+-//             </Card.Content>
+-//             <Card.Content textAlign='center'style={{ maxHeight: "50px", minHeight: "50px" }}> 
+-//               <div className='tiny ui two buttons' onClick={(e) => e.stopPropagation()}>
+-//                 <Button color='blue' onClick={handleChatClick}>Chat</Button>
+-//                 {/* <Button color='olive'>Read</Button> */}
+-//               </div>
+-//             </Card.Content>
+-//           </Card>
+-//         ) : (
+-//           <Card className={styles.cardFront} raised>
+-//             <div>
+-//               <Image src={`/images/${author.id}.png`} className={styles.cardImage} />
+-//             </div>
+-//             <Card.Content textAlign='center'>
+-//               <Card.Content style={{ fontSize: '16px', fontWeight: 'bold'}}>{`${author.id}`}</Card.Content>
+-//             </Card.Content>
+-//           </Card>
+-//         )}
+-//       </div>
+-//     );
+-//   };
+-
+-
+-// export default AuthorCard;
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-// // Pure CSS Attempt
+-
+-// import React, { useEffect, useRef } from 'react';
+-// import useStreamingText from './Stream';
+-// import { useCardState } from '../../contexts/CardStateContext';
+-
+-// const AuthorCard = ({ author }) => {
+-//   const { cardState, flipCard } = useCardState(author.id);
+-//   const streamedDescription = useStreamingText(author.description, 15, cardState.startStreaming || false);
+-//   const scrollableRef = useRef<HTMLDivElement>(null);
+-
+-//   const handleClick = () => {
+-//     flipCard();
+-//   };
+-
+-//   const cardStyle: React.CSSProperties = {
+-//     borderRadius: '5px',
+-//     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+-//     background: '#fbfbf5',
+-//     minHeight: '210px',
+-//     maxHeight: '210px',
+-//     textAlign: 'center',
+-//     padding: '10px',
+-//     display: 'flex',
+-//     flexDirection: 'column',
+-//     justifyContent: 'space-between',
+-//   };
++    );
++  };
+ 
+-//   return (
+-//     <div onClick={handleClick} style={{
+-//       perspective: '1000px',
+-//       transition: 'transform 1s',
+-//       transformStyle: 'preserve-3d',
+-//       position: 'relative',
+-//       width: '100%',
+-//       height: '100%',
+-//       transform: cardState.isFlipped ? 'rotateY(180deg)' : ''
+-//     }}>
+-//       {cardState.isFlipped ? (
+-//         <div style={{ ...cardStyle, transform: 'rotateY(180deg)' }}>
+-//           <div ref={scrollableRef} className="scrollable-card-content" style={{ overflowY: 'auto', flex: 1 }}>
+-//             {streamedDescription}
+-//           </div>
+-//         </div>
+-//       ) : (
+-//         <div style={cardStyle}>
+-//           <div>
+-//             <img src={`/images/${author.id}.png`} style={{
+-//               width: '100%',
+-//               height: 'auto',
+-//               objectFit: 'cover',
+-//               padding: '.5rem'
+-//             }} />
+-//           </div>
+-//           <div style={{ fontSize: '16px', fontWeight: 'bold' }}>
+-//             {`${author.id}`}
+-//           </div>
+-//         </div>
+-//       )}
+-//     </div>
+-//   );
+-// };
+ 
+-// export default AuthorCard;
+\ No newline at end of file
++export default AuthorCard;
+diff --git a/Components/homepage/AuthorList.tsx b/Components/homepage/AuthorList.tsx
+index 7af0b6e..2177bb2 100644
+--- a/Components/homepage/AuthorList.tsx
++++ b/Components/homepage/AuthorList.tsx
+@@ -1,43 +1,18 @@
+-// import React from 'react';
+-// import AuthorCard from './AuthorCard';
+-// import VirtualBookShelfComponent from '../SemanticLibrary/VirtualBookshelf';
+-
+-// const AuthorList = ({ authors }) => {
+-//   return (
+-//     <div>
+-//       {authors.map((author) => (
+-//         <div key={author.id}>
+-//           <AuthorCard author={author} expanded />
+-//           <VirtualBookShelfComponent author={author.id} />
+-//         </div>
+-//       ))}
+-//     </div>
+-//   );
+-// };
+-
+-// export default AuthorList;
+-
+-
+-
+-
+-
+-// // OG
+-
+-// import React from 'react';
+-// import { useCardState } from '../../contexts/CardStateContext';
+-// import AuthorCard from './AuthorCard';
+-
+-// const AuthorList = ({ authors }) => {
+-//   return (
+-//     <div>
+-//       {authors.map((author) => {
+-//         const { activeChat } = useCardState(author.id);
+-//         return activeChat === null || activeChat === author.id ? (
+-//           <AuthorCard author={author} key={author.id} />
+-//         ) : null;
+-//       })}
+-//     </div>
+-//   );
+-// };
+-
+-// export default AuthorList;
++import React from 'react';
++import { useCardState } from '../../contexts/CardStateContext';
++import AuthorCard from './AuthorCard';
++
++const AuthorList = ({ authors }) => {
++  return (
++    <div>
++      {authors.map((author) => {
++        const { activeChat } = useCardState(author.id);
++        return activeChat === null || activeChat === author.id ? (
++          <AuthorCard author={author} key={author.id} />
++        ) : null;
++      })}
++    </div>
++  );
++};
++
++export default AuthorList;
+diff --git a/Components/homepage/HomePage.tsx b/Components/homepage/HomePage.tsx
+index 0813fa1..d41dd94 100644
+--- a/Components/homepage/HomePage.tsx
++++ b/Components/homepage/HomePage.tsx
+@@ -1,109 +1,30 @@
+-import React, { useState, useEffect } from 'react';
++import React, { useEffect } from 'react';
+ import AuthorCard from './AuthorCard';
+ import styles from '../../styles/Home.module.css';
+-import { useResetCards } from '../../contexts/CardStateContext';
++import { useActiveChat } from '../../contexts/ActiveChatContext';
++import { useCardState, useResetCards } from '../../contexts/CardStateContext';
+ 
+ function HomePage({ authors }) {
+-  const [activeAuthor, setActiveAuthor] = useState(null);
++  const { activeChat, setActiveChat } = useActiveChat();
+   const resetCards = useResetCards();
+ 
+   useEffect(() => {
+-    setActiveAuthor(null);
++    // Reset active chat when HomePage mounts
++    setActiveChat(null);
+     resetCards();
+   }, []);
+ 
+-  const handleCardClick = (authorId) => {
+-    setActiveAuthor(authorId === activeAuthor ? null : authorId);
+-  };
+-
+   return (
+-    <div className={styles.grid}>
+-      {authors.map((author) => (
+-        <div key={author.id} onClick={() => handleCardClick(author.id)}>
+-          <AuthorCard 
+-            author={author} 
+-            expanded={activeAuthor === author.id} 
+-          />
+-        </div>
+-      ))}
++    <div>
++      <div className={styles.grid}>
++        {authors.map((author) => (
++          activeChat === null || activeChat === author.id ?
++            <AuthorCard key={author.id} author={author} />
++            : null
++        ))}
++      </div>
+     </div>
+   );
+ }
+ 
+-export default HomePage;
+-
+-
+-
+-
+-// // HomePage.tsx
+-// import React, { useEffect } from 'react';
+-// import AuthorList from './AuthorList';
+-// import AuthorCard from './AuthorCard';
+-// import styles from '../../styles/Home.module.css';
+-// import { useActiveChat } from '../../contexts/ActiveChatContext';
+-// import { useResetCards } from '../../contexts/CardStateContext';
+-
+-// function HomePage({ authors }) {
+-//   const { activeChat, setActiveChat } = useActiveChat();
+-//   const resetCards = useResetCards();
+-
+-//   useEffect(() => {
+-//     setActiveChat(null);
+-//     resetCards();
+-//   }, []);
+-
+-//   return (
+-//     <div>
+-//       <div className={styles.grid}>
+-//         {/* This add the OG Page at the bottom. I want to merge them. */}
+-//         {authors.map((author) => (
+-//           activeChat === null || activeChat === author.id ?
+-//             <AuthorCard key={author.id} author={author} />
+-//             : null
+-//         ))}
+-
+-        // <div className={styles.virtualBookshelfRow}>
+-        //   <AuthorList authors={authors} />
+-        // </div>
+-
+-//       </div>
+-//     </div>
+-//   );
+-// }
+-
+-// export default HomePage;
+-
+-
+-
+-// // OG
+-
+-// import React, { useEffect } from 'react';
+-// import AuthorCard from './AuthorCard';
+-// import styles from '../../styles/Home.module.css';
+-// import { useActiveChat } from '../../contexts/ActiveChatContext';
+-// import { useCardState, useResetCards } from '../../contexts/CardStateContext';
+-
+-// function HomePage({ authors }) {
+-//   const { activeChat, setActiveChat } = useActiveChat();
+-//   const resetCards = useResetCards();
+-
+-//   useEffect(() => {
+-//     // Reset active chat when HomePage mounts
+-//     setActiveChat(null);
+-//     resetCards();
+-//   }, []);
+-
+-//   return (
+-//     <div>
+-//       <div className={styles.grid}>
+-//         {authors.map((author) => (
+-//           activeChat === null || activeChat === author.id ?
+-//             <AuthorCard key={author.id} author={author} />
+-//             : null
+-//         ))}
+-//       </div>
+-//     </div>
+-//   );
+-// }
+-
+-// export default HomePage;
+\ No newline at end of file
++export default HomePage;
+\ No newline at end of file
+diff --git a/Components/homepageMenu/header.tsx b/Components/homepageMenu/header.tsx
+index 2f64a8d..f63df04 100644
+--- a/Components/homepageMenu/header.tsx
++++ b/Components/homepageMenu/header.tsx
+@@ -19,4 +19,8 @@ const HeaderProp = () => {
+   );
+ };
+ 
+-export default HeaderProp;
+\ No newline at end of file
++export default HeaderProp;
++
++
++
++
+diff --git a/pages/chat/[authorId].tsx b/pages/chat/[authorId].tsx
+index 6009b94..28769d7 100644
+--- a/pages/chat/[authorId].tsx
++++ b/pages/chat/[authorId].tsx
+@@ -1,6 +1,6 @@
+-// // Client Side reindering Option
++// Client Side reindering Option
+ // import { useRouter } from 'next/router';
+-// import ChatPage from '../ChatPage';
++// import ChatPage from '../../Components/ChatPage';
+ // import AUTHOR_INFO from '../../data/author_data';
+ 
+ // const AuthorChatPage = () => {
+diff --git a/pages/semantic-library.tsx b/pages/semantic-library.tsx
+index 36b49f9..c7c40c7 100644
+--- a/pages/semantic-library.tsx
++++ b/pages/semantic-library.tsx
+@@ -1,88 +1,10 @@
+-import { useState, useEffect } from 'react';
++// In your pages folder structure (e.g. semantic-library.tsx)
+ import Layout from '../Components/homepageMenu/Layout';
+ import SemanticLibrarySearch from '../Components/SemanticLibrary/SemanticLibraryPage';
+ 
+-const ModalBackdrop = () => (
+-  <div style={{
+-    position: 'fixed',
+-    top: 0,
+-    left: 0,
+-    width: '100%',
+-    height: '100%',
+-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+-    zIndex: 999,
+-  }}></div>
+-);
+-
+-const ModalContent = ({ onClose }) => (
+-  <div style={{
+-    position: 'fixed',
+-    top: '50%',
+-    left: '50%',
+-    transform: 'translate(-50%, -50%)',
+-    backgroundColor: '#ffffff',
+-    padding: '24px',
+-    zIndex: 1000,
+-    borderRadius: '12px',
+-    boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
+-    textAlign: 'center',
+-  }}>
+-    <h2 style={typographyStyles.header}>We're Moving!</h2>
+-    <p style={typographyStyles.paragraph}>In our commitment to offering an alternative to Big Tech AI, we are migrating to the Internet Computer Blockchain.</p>
+-    <p style={typographyStyles.paragraph}>This transition will free us from the confines of the 7 Big Tech cloud service on which this app currently relies. It's also enabling us to make every element you see here ownable and tradeable, which we hope makes this a place of unparalleled intellectual freedom for content creators, AI researchers, and authors.</p>
+-    <p style={typographyStyles.paragraph}>For the latest updates, follow @uncensrdgreats.</p>
+-    <button
+-      onClick={onClose}
+-      style={buttonStyles.default}
+-      onMouseOver={e => e.currentTarget.style.backgroundColor = '#357ae8'}
+-      onMouseOut={e => e.currentTarget.style.backgroundColor = '#4285F4'}
+-    >
+-      Got it!
+-    </button>
+-  </div>
+-);
+-
+-const typographyStyles = {
+-  header: {
+-    fontFamily: 'Arial, sans-serif',
+-    fontSize: '1.8em',
+-    marginBottom: '16px',
+-  },
+-  paragraph: {
+-    fontFamily: 'Georgia, serif',
+-    fontSize: '1.2em',
+-    lineHeight: '1.6',
+-    marginBottom: '24px',
+-  }
+-};
+-
+-const buttonStyles = {
+-  default: {
+-    backgroundColor: '#4285F4',
+-    color: '#ffffff',
+-    padding: '12px 24px',
+-    borderRadius: '6px',
+-    border: 'none',
+-    cursor: 'pointer',
+-    transition: 'background-color 0.3s',
+-  }
+-};
+-
+ export default function SemanticLibrary() {
+-  const [showModal, setShowModal] = useState(false);
+-
+-  useEffect(() => {
+-    setShowModal(true);
+-  }, []);
+-
+   return (
+     <Layout>
+-      {showModal && (
+-        <>
+-          <ModalBackdrop />
+-          <ModalContent onClose={() => setShowModal(false)} />
+-        </>
+-      )}
+       <SemanticLibrarySearch />
+     </Layout>
+   );
+diff --git a/pages/the-greats.tsx b/pages/the-greats.tsx
+index e2ff110..1a99d2b 100644
+--- a/pages/the-greats.tsx
++++ b/pages/the-greats.tsx
+@@ -1,3 +1,16 @@
++// App.tsx
++// import React from 'react';
++// import AUTHOR_INFO from '../data/author_data';
++// import HomePage from '../Components/HomePage';
++
++// function App() {
++//   return <HomePage authors={AUTHOR_INFO} />;
++// }
++
++// export default App;
++
++
++
+ // pages/the-greats.tsx
+ import Layout from '../Components/homepageMenu/Layout';
+ import HomePage from '../Components/homepage/HomePage';
+diff --git a/styles/Home.module.css b/styles/Home.module.css
+index 55b5961..984135c 100644
+--- a/styles/Home.module.css
++++ b/styles/Home.module.css
+@@ -1,40 +1,34 @@
+ .grid {
+-  display: grid;
+-  /* grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); */
+-  /* grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); */
+-  gap: 3em;
+-  padding: 2em;
+-}
++    display: grid;
++    /* grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); */
++    /* grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); */
++    gap: 3em;
++    padding: 2em;
++  }
+ 
+-/* .virtualBookshelfRow {
+-grid-column: 1 / -1;  
+-display: flex;
+-min-width: 500px;
+-} */
+-/* Span from the first to the last grid column */
+ 
+ @media only screen and (min-width: 200px) {
+-.grid {
+-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+-}
++  .grid {
++    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
++  }
+ }
+ 
+ @media only screen and (min-width: 768px) {
+-.grid {
+-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+-}
++  .grid {
++    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
++  }
+ }
+ 
+ @media only screen and (min-width: 992px) {
+-.grid {
+-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+-}
++  .grid {
++    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
++  }
+ }
+ 
+ @media only screen and (min-width: 1200px) {
+-.grid {
+-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+-}
++  .grid {
++    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
++  }
+ }
+ 
+ 
+@@ -43,50 +37,50 @@ min-width: 500px;
+ 
+ 
+ .cardImage {
+-width: 100%;
+-height: auto;
+-object-fit: cover;
+-padding: .5rem;
++  width: 100%;
++  height: auto;
++  object-fit: cover;
++  padding: .5rem;
+ }
+ 
+ .cardContainer {
+-perspective: 1000px;
+-transition: transform 1s;
+-transform-style: preserve-3d;
+-position: relative;
+-width: 100%;
+-height: 100%;
++  perspective: 1000px;
++  transition: transform 1s;
++  transform-style: preserve-3d;
++  position: relative;
++  width: 100%;
++  height: 100%;
+ }
+ 
+ .cardFlipped {
+-transform: rotateY(180deg);
++  transform: rotateY(180deg);
+ }
+ 
+ .cardFront,
+ .cardBack {
+-backface-visibility: hidden;
+-position: absolute;
+-top: 0;
+-left: 0;
+-width: 100%;
+-height: 100%;
+-border-radius: 5px;
+-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+-background: #fbfbf5 !important;
+-transition: transform 0.6s;
+-transform-style: preserve-3d;
++  backface-visibility: hidden;
++  position: absolute;
++  top: 0;
++  left: 0;
++  width: 100%;
++  height: 100%;
++  border-radius: 5px;
++  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
++  background: #fbfbf5 !important;
++  transition: transform 0.6s;
++  transform-style: preserve-3d;
+ }
+ 
+ .cardBack {
+-transform: rotateY(180deg);
+--ms-overflow-style: none; 
+-scrollbar-width: none; 
+-padding: 10px; 
+-display: flex;
+-flex-direction: column;
+-justify-content: space-between;
++  transform: rotateY(180deg);
++  -ms-overflow-style: none;  /* IE and Edge */
++  scrollbar-width: none;  /* Firefox */
++  padding: 10px; 
++  display: flex;
++  flex-direction: column;
++  justify-content: space-between;
+ }
+ 
+ .cardBack::-webkit-scrollbar {
+-display: none;
+-}
+\ No newline at end of file
++  display: none;
++}
+diff --git a/styles/VirtualBookshelf.module.css b/styles/VirtualBookshelf.module.css
+index c817b14..ff823ea 100644
+--- a/styles/VirtualBookshelf.module.css
++++ b/styles/VirtualBookshelf.module.css
+@@ -1,4 +1,4 @@
+-/* .loadingMore {
++.loadingMore {
+     text-align: center;
+     padding: 20px;
+     font-size: 0.9em;
+@@ -59,129 +59,4 @@
+     font-weight: normal;
+     color: #6a6a6a;
+   }
+-   */
+-
+-
+-
+-
+-
+-
+-  .🌐🌈 {
+-    display: flex;
+-    flex-direction: column;
+-    overflow: auto;
+-  }
+-  
+-  .✍️ {
+-    position: relative;
+-    width: 100vw;
+-    left: 0;
+-    top: 15px;
+-    font-family: 'Times New Roman', Times, serif;
+-    text-align: center;
+-    color: #44444a !important;
+-  }
+-  
+-  .📜 {
+-    background-color: rgb(255, 255, 246) !important;
+-  }
+-  
+-  .📜 {
+-    display: flex;
+-    flex-wrap: nowrap;
+-    overflow-x: auto;
+-    width: 100%;
+-  }
+-  
+-  
+-  .📚👥 {
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-    gap: 1rem;
+-    -ms-overflow-style: none;  
+-    -webkit-overflow-scrolling: touch;
+-    padding: 0.6rem;
+-  }
+-  
+-  .🌟 {
+-    display: flex;
+-    flex-wrap: nowrap;
+-    overflow-x: auto;
+-    overflow-y: hidden;
+-    -ms-overflow-style: none;
+-    scrollbar-width: none;
+-    width: 100%;
+-    padding: 0.6rem;
+-  }
+-  
+-   .🕵️‍♀️📜 {
+-    -ms-overflow-style: none;
+-    scrollbar-width: none;
+-  }
+-  
+-  .🕵️‍♀️📜::-webkit-scrollbar {
+-    display: none;
+-  }
+-  
+-  .🖼️🌌 {
+-    padding: 8px;
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-  }
+-  
+-  .👩‍🎨📷 {
+-    width: 90%;
+-    object-fit: cover;
+-    object-position: center;
+-  }
+-  
+-  .👤🎴 {
+-    background-color: rgb(241, 241, 225) !important;
+-  }
+-  
+-  .👤🎴-custom {
+-    width: 14rem !important;
+-    display: flex;
+-    flex-direction: column;
+-  }
+-
+-  .👤🎴-header {
+-    color: black !important;
+-    font-size: 16px !important;
+-    font-weight: bold !important;
+-    font-family: 'Calibri' !important;
+-    overflow: hidden;
+-    text-overflow: ellipsis;
+-    height: 5em;
+-    line-height: 1.3em;
+-    display: -webkit-box;
+-    -webkit-box-orient: vertical;
+-    -webkit-line-clamp: 2;
+-  }
+-  
+-  .👤🎴-container {
+-    flex: 0 0 auto;
+-    padding: 0 1rem 0 0;
+-    transition: transform 0.4s;
+-    position: relative;
+-    flex-shrink: 0;
+-  }
+-  
+-  .👤🎴-container:hover {
+-    transform: scale(1.04);
+-    z-index: 1;
+-  }
+-  
+-  .📝📖 {
+-    font-family: 'Times New Roman', Times, serif;
+-    color: #44444a;
+-    padding: 10px;
+-    margin: 20px;
+-    border: 1px solid #ccc;
+-    border-radius: 10px;
+-    background-color: #f2f2f2;
+-    transition: all 0.5s ease-in-out;
+-  }
+   
+\ No newline at end of file
+diff --git a/styles/globalStyles.css b/styles/globalStyles.css
+index 3560e1b..1ddf703 100644
+--- a/styles/globalStyles.css
++++ b/styles/globalStyles.css
+@@ -1,118 +1 @@
+-   /* .🌐🌈 {
+-    display: flex;
+-    flex-direction: column;
+-    overflow: auto;
+-  }
+-  
+-  .✍️ {
+-    position: relative;
+-    width: 100vw;
+-    left: 0;
+-    font-family: 'Times New Roman', Times, serif;
+-    text-align: center;
+-    color: #44444a !important;
+-  }
+-  
+-  .📜 {
+-    background-color: rgb(255, 255, 246) !important;
+-  }
+-  
+-  .📜 {
+-    display: flex;
+-    flex-wrap: nowrap;
+-    overflow-x: auto;
+-    width: 100%;
+-  }
+-  
+-  
+-  .📚👥 {
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-    gap: 1rem;
+-    -ms-overflow-style: none;  
+-    -webkit-overflow-scrolling: touch;
+-    padding: 0.6rem;
+-  }
+-  
+-  .🌟 {
+-    display: flex;
+-    flex-wrap: nowrap;
+-    overflow-x: auto;
+-    overflow-y: hidden;
+-    -ms-overflow-style: none;
+-    scrollbar-width: none;
+-    width: 100%;
+-    padding: 0.6rem;
+-  }
+-  
+-   .🕵️‍♀️📜 {
+-    -ms-overflow-style: none;
+-    scrollbar-width: none;
+-  }
+-  
+-  .🕵️‍♀️📜::-webkit-scrollbar {
+-    display: none;
+-  }
+-  
+-  .🖼️🌌 {
+-    padding: 8px;
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-  }
+-  
+-  .👩‍🎨📷 {
+-    width: 90%;
+-    object-fit: cover;
+-    object-position: center;
+-  }
+-  
+-  .👤🎴 {
+-    background-color: rgb(241, 241, 225) !important;
+-  }
+-  
+-  .👤🎴-custom {
+-    width: 14rem !important;
+-    display: flex;
+-    flex-direction: column;
+-  }
+-
+-  .👤🎴-header {
+-    color: black !important;
+-    font-size: 16px !important;
+-    font-weight: bold !important;
+-    font-family: 'Calibri' !important;
+-    overflow: hidden;
+-    text-overflow: ellipsis;
+-    height: 5em;
+-    line-height: 1.3em;
+-    display: -webkit-box;
+-    -webkit-box-orient: vertical;
+-    -webkit-line-clamp: 2;
+-  }
+-  
+-  .👤🎴-container {
+-    flex: 0 0 auto;
+-    padding: 0 1rem 0 0;
+-    transition: transform 0.4s;
+-    position: relative;
+-    flex-shrink: 0;
+-  }
+-  
+-  .👤🎴-container:hover {
+-    transform: scale(1.04);
+-    z-index: 1;
+-  }
+-  
+-  .📝📖 {
+-    font-family: 'Times New Roman', Times, serif;
+-    color: #44444a;
+-    padding: 10px;
+-    margin: 20px;
+-    border: 1px solid #ccc;
+-    border-radius: 10px;
+-    background-color: #f2f2f2;
+-    transition: all 0.5s ease-in-out;
+-  }
+-   */
+\ No newline at end of file
++/* asdf */
+\ No newline at end of file

@@ -1,28 +1,64 @@
-// // AuthorCard.tsx
-
-import React from 'react';
-import { Card, Image } from 'semantic-ui-react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { Card, Image, Button } from 'semantic-ui-react';
 import styles from '../../styles/Home.module.css';
 import useStreamingText from './Stream';
 import { useCardState } from '../../contexts/CardStateContext';
-import VirtualBookShelfComponent from '../SemanticLibrary/VirtualBookshelf';
+import { useActiveChat } from '../../contexts/ActiveChatContext';
 
-const AuthorCard = ({ author, expanded }) => {
-  const { cardState, flipCard } = useCardState(author.id);
+const AuthorCard = ({ author }) => {
+  const { cardState, flipCard, startChat, stopChat } = useCardState(author.id);
+  const { activeChat, setActiveChat } = useActiveChat();
   const streamedDescription = useStreamingText(author.description, 15, cardState.startStreaming || false);
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log('chatMode: ', cardState.chatMode);
+  }, [cardState.chatMode]);
+
+  // Added to reset activechat to null when the user navigates home: 
+  useEffect(() => {
+    if (router.pathname === '/' || router.pathname === '/the-greats') {
+        setActiveChat(null);
+    }
+  }, [router.pathname]);
 
   const handleClick = () => {
     flipCard();
   };
 
-  return (
-    <div>
-      {/* Existing Author Card */}
+  const handleChatClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    console.log('Chat Clicked');
+    if (!cardState.chatMode) {
+      startChat();
+      setActiveChat(author.id);
+      router.push(`/chat/${author.id}`);
+    } else {
+      stopChat();
+      setActiveChat(null);
+      router.push('/');
+    }
+  };
+
+  const handleReadClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+
+    return (
       <div onClick={handleClick} className={`${styles.cardContainer} ${cardState.isFlipped ? styles.cardFlipped : ''}`}>
         {cardState.isFlipped ? (
           <Card className={styles.cardBack} raised>
             <Card.Content textAlign='center' style={{ minHeight: "210px", maxHeight: "210px", overflowY: "auto" }}>
               <Card.Description>{streamedDescription}</Card.Description>
+            </Card.Content>
+            <Card.Content textAlign='center'style={{ maxHeight: "50px", minHeight: "50px" }}> 
+              <div className='tiny ui two buttons' onClick={(e) => e.stopPropagation()}>
+                <Button color='blue' onClick={handleChatClick}>Chat</Button>
+                {/* <Button color='olive'>Read</Button> */}
+              </div>
             </Card.Content>
           </Card>
         ) : (
@@ -36,239 +72,8 @@ const AuthorCard = ({ author, expanded }) => {
           </Card>
         )}
       </div>
-      {expanded && (
-        <VirtualBookShelfComponent author={author.id} />
-      )}
-    </div>
-  );
-};
+    );
+  };
+
 
 export default AuthorCard;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // OG with content removed, before integratign virtualbookshelf.
-
-// import React from 'react';
-// import { Card, Image } from 'semantic-ui-react';
-// import styles from '../../styles/Home.module.css';
-// import useStreamingText from './Stream';
-// import { useCardState } from '../../contexts/CardStateContext';
-
-// const AuthorCard = ({ author }) => {
-//   const { cardState, flipCard } = useCardState(author.id);
-//   const streamedDescription = useStreamingText(author.description, 15, cardState.startStreaming || false);
-
-//   const handleClick = () => {
-//     flipCard();
-//   };
-
-//   return (
-//     <div onClick={handleClick} className={`${styles.cardContainer} ${cardState.isFlipped ? styles.cardFlipped : ''}`}>
-//       {cardState.isFlipped ? (
-//         <Card className={styles.cardBack} raised>
-//           <Card.Content textAlign='center' style={{ minHeight: "210px", maxHeight: "210px", overflowY: "auto" }}>
-//             <Card.Description>{streamedDescription}</Card.Description>
-//           </Card.Content>
-//         </Card>
-//       ) : (
-//         <Card className={styles.cardFront} raised>
-//           <div>
-//             <Image src={`/images/${author.id}.png`} className={styles.cardImage} />
-//           </div>
-//           <Card.Content textAlign='center'>
-//             <Card.Content style={{ fontSize: '16px', fontWeight: 'bold'}}>{`${author.id}`}</Card.Content>
-//           </Card.Content>
-//         </Card>
-//       )}
-//     </div>
-//   );
-// };
-
-
-// export default AuthorCard;
-
-
-
-
-
-
-
-
-
-
-
-
-// // OG Before removing buttons/container and experimenting with book listing on card back.
-
-// import { useRouter } from 'next/router';
-// import React, { useEffect } from 'react';
-// import { Card, Image, Button } from 'semantic-ui-react';
-// import styles from '../../styles/Home.module.css';
-// import useStreamingText from './Stream';
-// import { useCardState } from '../../contexts/CardStateContext';
-// import { useActiveChat } from '../../contexts/ActiveChatContext';
-
-// const AuthorCard = ({ author }) => {
-//   const { cardState, flipCard, startChat, stopChat } = useCardState(author.id);
-//   const { activeChat, setActiveChat } = useActiveChat();
-//   const streamedDescription = useStreamingText(author.description, 15, cardState.startStreaming || false);
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     console.log('chatMode: ', cardState.chatMode);
-//   }, [cardState.chatMode]);
-
-//   // Added to reset activechat to null when the user navigates home: 
-//   useEffect(() => {
-//     if (router.pathname === '/' || router.pathname === '/the-greats') {
-//         setActiveChat(null);
-//     }
-//   }, [router.pathname]);
-
-//   const handleClick = () => {
-//     flipCard();
-//   };
-
-//   const handleChatClick = (e: React.MouseEvent) => {
-//     e.preventDefault();
-//     console.log('Chat Clicked');
-//     if (!cardState.chatMode) {
-//       startChat();
-//       setActiveChat(author.id);
-//       router.push(`/chat/${author.id}`);
-//     } else {
-//       stopChat();
-//       setActiveChat(null);
-//       router.push('/');
-//     }
-//   };
-
-//   const handleReadClick = (e: React.MouseEvent) => {
-//     e.preventDefault();
-//     e.stopPropagation();
-//   };
-
-
-//     return (
-//       <div onClick={handleClick} className={`${styles.cardContainer} ${cardState.isFlipped ? styles.cardFlipped : ''}`}>
-//         {cardState.isFlipped ? (
-//           <Card className={styles.cardBack} raised>
-//             <Card.Content textAlign='center' style={{ minHeight: "210px", maxHeight: "210px", overflowY: "auto" }}>
-//               <Card.Description>{streamedDescription}</Card.Description>
-//             </Card.Content>
-//             <Card.Content textAlign='center'style={{ maxHeight: "50px", minHeight: "50px" }}> 
-//               <div className='tiny ui two buttons' onClick={(e) => e.stopPropagation()}>
-//                 <Button color='blue' onClick={handleChatClick}>Chat</Button>
-//                 {/* <Button color='olive'>Read</Button> */}
-//               </div>
-//             </Card.Content>
-//           </Card>
-//         ) : (
-//           <Card className={styles.cardFront} raised>
-//             <div>
-//               <Image src={`/images/${author.id}.png`} className={styles.cardImage} />
-//             </div>
-//             <Card.Content textAlign='center'>
-//               <Card.Content style={{ fontSize: '16px', fontWeight: 'bold'}}>{`${author.id}`}</Card.Content>
-//             </Card.Content>
-//           </Card>
-//         )}
-//       </div>
-//     );
-//   };
-
-
-// export default AuthorCard;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // Pure CSS Attempt
-
-// import React, { useEffect, useRef } from 'react';
-// import useStreamingText from './Stream';
-// import { useCardState } from '../../contexts/CardStateContext';
-
-// const AuthorCard = ({ author }) => {
-//   const { cardState, flipCard } = useCardState(author.id);
-//   const streamedDescription = useStreamingText(author.description, 15, cardState.startStreaming || false);
-//   const scrollableRef = useRef<HTMLDivElement>(null);
-
-//   const handleClick = () => {
-//     flipCard();
-//   };
-
-//   const cardStyle: React.CSSProperties = {
-//     borderRadius: '5px',
-//     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-//     background: '#fbfbf5',
-//     minHeight: '210px',
-//     maxHeight: '210px',
-//     textAlign: 'center',
-//     padding: '10px',
-//     display: 'flex',
-//     flexDirection: 'column',
-//     justifyContent: 'space-between',
-//   };
-
-//   return (
-//     <div onClick={handleClick} style={{
-//       perspective: '1000px',
-//       transition: 'transform 1s',
-//       transformStyle: 'preserve-3d',
-//       position: 'relative',
-//       width: '100%',
-//       height: '100%',
-//       transform: cardState.isFlipped ? 'rotateY(180deg)' : ''
-//     }}>
-//       {cardState.isFlipped ? (
-//         <div style={{ ...cardStyle, transform: 'rotateY(180deg)' }}>
-//           <div ref={scrollableRef} className="scrollable-card-content" style={{ overflowY: 'auto', flex: 1 }}>
-//             {streamedDescription}
-//           </div>
-//         </div>
-//       ) : (
-//         <div style={cardStyle}>
-//           <div>
-//             <img src={`/images/${author.id}.png`} style={{
-//               width: '100%',
-//               height: 'auto',
-//               objectFit: 'cover',
-//               padding: '.5rem'
-//             }} />
-//           </div>
-//           <div style={{ fontSize: '16px', fontWeight: 'bold' }}>
-//             {`${author.id}`}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default AuthorCard;
