@@ -1,6 +1,6 @@
-// Client Side reindering Option
+// // Client Side reindering Option
 // import { useRouter } from 'next/router';
-// import ChatPage from '../../Components/ChatPage';
+// import ChatPage from '../ChatPage';
 // import AUTHOR_INFO from '../../data/author_data';
 
 // const AuthorChatPage = () => {

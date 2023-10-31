@@ -20,7 +20,3 @@ const HeaderProp = () => {
 };
 
 export default HeaderProp;
-
-
-
-
