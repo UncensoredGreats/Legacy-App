@@ -20,9 +20,9 @@ const PostContent = ({ authorId, isFlipped, userQuestion, post, sourceTitle, sou
       <Grid.Row centered style={{ padding: '10px 0' }}>
           <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
               <Button.Group style={{ flexGrow: 1, marginLeft: '15px' }}>
-                  <Button compact active={!showMetaSummary} onClick={() => setShowMetaSummary(false)}>AI Output</Button>
+                  <Button compact active={!showMetaSummary} onClick={() => setShowMetaSummary(false)}>AI Summary</Button>
                   <Button.Or />
-                  <Button compact active={showMetaSummary} onClick={() => setShowMetaSummary(true)}>AI Input</Button>
+                  <Button compact active={showMetaSummary} onClick={() => setShowMetaSummary(true)}>Stance</Button>
               </Button.Group>
               <Button basic onClick={flipCard} style={{ marginLeft: '15px', marginRight: '20px' }}>
                   <Icon name='redo' color='black' size='large' />

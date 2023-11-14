@@ -11,7 +11,7 @@ export interface OpenAIModel {
   }
 
 const OPENAI_API_HOST = 'https://api.openai.com';
-const OpenAIModel = 'gpt-3.5-turbo';
+const OpenAIModel = 'gpt-4-1106-preview';
 
 import {
   ParsedEvent,

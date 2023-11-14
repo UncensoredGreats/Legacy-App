@@ -60,7 +60,7 @@ const createPayload = (contentString, authorId, query, settings, promptStyle) =>
   }
 
   const openAIPayload = {
-    model: process.env.MODEL_NAME || 'gpt-3.5-turbo',
+    model: process.env.MODEL_NAME || 'gpt-4-1106-preview', //  'gpt-3.5-turbo', 
     messages: selectedPrompt,
     max_tokens: settings.maxTokens,
     temperature: settings.temperature,
