@@ -46,13 +46,14 @@ const PublicAuthorMessage = ({
     userQuestion = post.user_query;
   }
 
-  let sourceTitle, sourceHeading, sourceContent, sourceSummaries, sourceMetasummary, metadata, messageId;
+  let sourceTitle, sourceHeading, sourceContent, sourceSummaries, sourceMetasummary, authorStance, metadata, messageId;
   try {
     sourceTitle = JSON.parse(post.source_title);
     sourceHeading = JSON.parse(post.source_heading);
     sourceContent = JSON.parse(post.source_content);
     sourceSummaries = JSON.parse(post.source_summaries);
     sourceMetasummary = JSON.parse(post.source_metasummary);
+    authorStance = post.stance;
     metadata = post.metadata;
     messageId = post.message_id;
   } catch (err) {
@@ -88,6 +89,7 @@ const PublicAuthorMessage = ({
               sourceContent={sourceContent}
               sourceSummaries={sourceSummaries}
               sourceMetasummary={sourceMetasummary}
+              authorStance={authorStance}
               animationPlayed={animationPlayed}
               setAnimationPlayed={setAnimationPlayed}
               showMetaSummary={showMetaSummary}

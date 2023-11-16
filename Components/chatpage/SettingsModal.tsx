@@ -85,7 +85,7 @@ const SettingsModal = ({ open, onClose, maxTokens, temperature, breadth, promptS
       </div>
       <div>
         <Header as='h4'>Response Length: {maxTokens}</Header>
-        <Slider min={100} max={1000} step={10} value={maxTokens} onChange={onChangeMaxTokens} />
+        <Slider min={200} max={2000} step={10} value={maxTokens} onChange={onChangeMaxTokens} />
       </div>
       <div>
         <Header as='h4'>Temperature: {temperature}</Header>

@@ -56,12 +56,12 @@ const ChatPage = ({ author }) => {
 
   // Settings Modal States:
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [promptStyle, setPromptStyle] = useState(1);
+  const [promptStyle, setPromptStyle] = useState(9);
 
 
-  const [maxTokens, setMaxTokens] = useState(() => typeof window !== 'undefined' ? Number(localStorage.getItem('maxTokens')) || 400 : 400);
+  const [maxTokens, setMaxTokens] = useState(() => typeof window !== 'undefined' ? Number(localStorage.getItem('maxTokens')) || 500 : 500);
   const [temperature, setTemperature] = useState(() => typeof window !== 'undefined' ? Number(localStorage.getItem('temperature')) || 0.7 : 0.7);
-  const [breadth, setBreadth] = useState(() => typeof window !== 'undefined' ? Number(localStorage.getItem('breadth')) || 4 : 4);
+  const [breadth, setBreadth] = useState(() => typeof window !== 'undefined' ? Number(localStorage.getItem('breadth')) || 3 : 3);
 
 
   useEffect(() => {

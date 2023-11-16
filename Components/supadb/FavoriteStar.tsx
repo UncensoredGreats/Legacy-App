@@ -33,10 +33,31 @@ const FavoriteStar = ({ msgId, author, messageContent, sourceTitle, sourceHeadin
   }, [msgId]);
 
 
-  const onStarClick = (event) => {
+  // const onStarClick = (event) => {
+  //   event.stopPropagation();
+  //   handleStarClick(someUserId, msgId, author, messageContent, sourceTitle, sourceHeading, sourceContent, sourceSummaries, sourceMetasummary, payload, setIsFavorited, query, promptStyleString);
+  // };
+
+  const onStarClick = async (event) => {
     event.stopPropagation();
-    handleStarClick(someUserId, msgId, author, messageContent, sourceTitle, sourceHeading, sourceContent, sourceSummaries, sourceMetasummary, payload, setIsFavorited, query, promptStyleString);
+    
+    // Optimistically update the UI
+    const newFavoritedStatus = !isFavorited;
+    setIsFavorited(newFavoritedStatus);
+  
+    try {
+      // Perform the actual data operation in the background
+      await handleStarClick(someUserId, msgId, author, messageContent, sourceTitle, sourceHeading, sourceContent, sourceSummaries, sourceMetasummary, payload, setIsFavorited, query, promptStyleString);
+  
+      // If the operation is successful, the UI is already updated
+    } catch (error) {
+      // If there's an error, revert the UI change and show an error message
+      setIsFavorited(!newFavoritedStatus);
+      console.error('Failed to update favorite status: ', error);
+      // Optionally, show an error message to the user
+    }
   };
+  
   
 
   return (

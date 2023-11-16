@@ -4,9 +4,9 @@ import { Button, Grid, Icon, Card, Transition, Label, Divider } from 'semantic-u
 import SourceCards from '../../Cards/SourceCards';
 import { processMetasummary } from '../../chatpage/processMetasummary';
 
-const PostContent = ({ authorId, isFlipped, userQuestion, post, sourceTitle, sourceHeading, sourceContent, sourceSummaries, sourceMetasummary, animationPlayed, setAnimationPlayed, showMetaSummary, flipCard, setShowMetaSummary }) => {
+const PostContent = ({ authorId, isFlipped, userQuestion, post, sourceTitle, sourceHeading, sourceContent, sourceSummaries, sourceMetasummary, animationPlayed, setAnimationPlayed, showMetaSummary, flipCard, setShowMetaSummary, authorStance }) => {
   
-  const processedSummary = processMetasummary(post.source_metasummary);
+  let publicStance = authorStance;
 
   return (
     <>
@@ -20,9 +20,9 @@ const PostContent = ({ authorId, isFlipped, userQuestion, post, sourceTitle, sou
       <Grid.Row centered style={{ padding: '10px 0' }}>
           <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
               <Button.Group style={{ flexGrow: 1, marginLeft: '15px' }}>
-                  <Button compact active={!showMetaSummary} onClick={() => setShowMetaSummary(false)}>AI Summary</Button>
+                  <Button compact active={!showMetaSummary} onClick={() => setShowMetaSummary(false)}>Stance</Button>
                   <Button.Or />
-                  <Button compact active={showMetaSummary} onClick={() => setShowMetaSummary(true)}>Stance</Button>
+                  <Button compact active={showMetaSummary} onClick={() => setShowMetaSummary(true)}>Source Summary</Button>
               </Button.Group>
               <Button basic onClick={flipCard} style={{ marginLeft: '15px', marginRight: '20px' }}>
                   <Icon name='redo' color='black' size='large' />
@@ -30,7 +30,8 @@ const PostContent = ({ authorId, isFlipped, userQuestion, post, sourceTitle, sou
           </div>
       </Grid.Row>
 
-      {/* <Divider /> */}
+      <Divider />
+
       <Transition.Group animation='horizontal flip' duration={500}>
         {isFlipped ? (
           <div key='cardBack' style={{ paddingBottom: '20px' }}>
@@ -51,7 +52,7 @@ const PostContent = ({ authorId, isFlipped, userQuestion, post, sourceTitle, sou
         ) : (
           <div key='cardFront'>
             <Card.Description style={{ wordWrap: 'break-word', color: 'black', fontSize: '16px', padding: '0px 0px 16px 0px' }}>
-              {showMetaSummary ? processedSummary : post.message_content}
+              {showMetaSummary ? post.message_content : publicStance} {/* Updated this line */}
             </Card.Description>
           </div>
         )}

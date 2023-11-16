@@ -118,7 +118,7 @@ function MediaPage() {
       }}>
           <div style={{
               width: '290px',
-              marginRight: '0px',  // Adjust this to control the gap between search and settings
+              marginRight: '0px',
               marginLeft: '30px',
           }}>
               <Input size='large' icon='search' placeholder='Search coming soon...'/>
