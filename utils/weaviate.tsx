@@ -1,4 +1,3 @@
-// Should be ready to go with individual summaries when we ready.
 import { WeaviateResponse, ExtractedData, ExtractedDataLibrary } from '../types/weaviate';
 import weaviate, { AuthUserPasswordCredentials } from 'weaviate-ts-client';
 
@@ -30,33 +29,6 @@ export async function bookSearch(query: string, breadth: number, scope: string, 
       console.error(err);
     });
 }
-
-
-// // OG
-// async function summarize(content, num_sentences) {
-//   try {
-//     const response = await fetch('https://extractivesummarizer-77f3c3288124.herokuapp.com/', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ text: content, num_sentences }),
-//     });
-//     const data = await response.json();
-//     while (data.summary.length < num_sentences) {
-//       data.summary.push(' ');  // or data.summary.push(null);
-//     }
-    
-//     return data.summary;
-//   } catch (err) {
-//     console.error(`Failed to summarize text: ${err}`);
-//     const sentences = content.split('. ');
-//     while (sentences.length < num_sentences) {
-//       sentences.push(' ');  // or sentences.push(null);
-//     }
-//     return sentences;
-//   }
-// }
-
-
 
 async function summarize(content: string, num_sentences: number): Promise<string[]> {
   try {
@@ -93,9 +65,6 @@ export async function extractData(sources: WeaviateResponse[]): Promise<Extracte
 
   const summaries = await Promise.all(contents.map(content => summarize(content, 3)));
   const metasummary = await summarize(joinedFormattedContents, 1000);
-
-  console.log('joinedFormattedContents', joinedFormattedContents);
-  console.log('metasummary', metasummary);
 
   return {
     titles,

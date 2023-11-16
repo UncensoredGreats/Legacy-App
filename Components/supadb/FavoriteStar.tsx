@@ -14,7 +14,6 @@ const FavoriteStar = ({ msgId, author, messageContent, sourceTitle, sourceHeadin
 
       if (userId) {
         setSomeUserId(userId);
-        console.log("User Id: ", userId);
         let { data: existingFavorite, error } = await supabase
           .from('Message Cards')
           .select('*')
