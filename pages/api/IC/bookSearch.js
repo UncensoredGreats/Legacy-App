@@ -1,5 +1,5 @@
 // pages/api/bookSearch.js
-import { bookSearch as originalBookSearch } from '../../../utils/bookSearch';
+import { bookSearch as originalBookSearch } from '../../../utils/weaviate';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
